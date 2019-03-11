@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from Interactor.MainWindowInteractor import provide_data_for_table
 
 
 class MainWindow(tk.Frame):
@@ -9,6 +10,7 @@ class MainWindow(tk.Frame):
 
     def init_main(self):
 
+        # Верстка главного окна
         add_data_button = tk.Button(self, text='Добавить запись')
         add_data_button.grid(sticky='w', padx=2.5, pady=5)
 
@@ -16,7 +18,7 @@ class MainWindow(tk.Frame):
         delete_data_button.grid(column=1, row=0, sticky='w', padx=2.5, pady=5)
 
         scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
-        scrollbar_for_table.grid(row=1, column=3, rowspan=5, sticky='ns')
+        scrollbar_for_table.grid(row=1, column=21, rowspan=5, sticky='ns')
 
         table = ttk.Treeview(self, columns=('Country', 'Province', 'Variety',
                                             'Points', 'Price', 'Taster'),
@@ -43,7 +45,8 @@ class MainWindow(tk.Frame):
         label_for_sort = tk.Label(self, text='Сортировать по:')
         label_for_sort.grid(row=0, column=2, sticky='w', padx=2.5, pady=5)
 
-        columns_to_sort = ttk.Combobox(self, values=('Страна', 'Провинция', 'Вид', 'Оценка', 'Цена', 'Сомелье'))
+        columns_to_sort = ttk.Combobox(self, values=('Страна', 'Провинция',
+                                                     'Вид', 'Оценка', 'Цена', 'Сомелье'))
         columns_to_sort.grid(row=0, column=3, sticky='w', padx=2.5, pady=5)
         columns_to_sort.current(4)
 
@@ -51,5 +54,16 @@ class MainWindow(tk.Frame):
         type_of_sorting.grid(row=0, column=4, sticky='w', padx=2.5, pady=5)
         type_of_sorting.current(1)
 
-        def fill_table():
+        # Заполнение таблицы данными из бд
+        data = provide_data_for_table()
+        for i in list(data.keys()):
+            if data[i]['Price'] != 'nan':
+                table.insert(parent='', index=i, values=[data[i]['Country'],
+                                                         data[i]['Province'],
+                                                         data[i]['Variety'],
+                                                         data[i]['Points'],
+                                                         data[i]['Price'],
+                                                         data[i]['Taster']])
 
+        # Добавление обработки нажатий
+        
