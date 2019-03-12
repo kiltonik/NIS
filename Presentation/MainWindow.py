@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from Interactor.MainWindowInteractor import provide_data_for_table
+from Interactor.Interactor import provide_data_for_table
+from Presentation.AddDataWindow import AddDataWindow
 
 
 class MainWindow(tk.Frame):
@@ -28,7 +29,7 @@ class MainWindow(tk.Frame):
         table.heading('Province', text='Провинция')
         table.heading('Variety', text='Вид')
         table.heading('Points', text='Оценка')
-        table.heading('Price', text='Цена')
+        table.heading('Price', text='Цена, $')
         table.heading('Taster', text='Сомелье')
 
         table.column('Country', width=100, anchor=tk.CENTER)
@@ -66,4 +67,16 @@ class MainWindow(tk.Frame):
                                                          data[i]['Taster']])
 
         # Добавление обработки нажатий
-        
+        def add_data(self):
+            AddDataWindow()
+            data = provide_data_for_table()
+            table.insert(parent='', index=list(data.keys())[-1],
+                         values=[data[list(data.keys())[-1]]['Country'],
+                                 data[list(data.keys())[-1]]['Province'],
+                                 data[list(data.keys())[-1]]['Variety'],
+                                 data[list(data.keys())[-1]]['Points'],
+                                 data[list(data.keys())[-1]]['Price'],
+                                 data[list(data.keys())[-1]]['Taster']])
+
+        add_data_button.bind('<Button-1>', add_data)
+
