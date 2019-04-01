@@ -4,6 +4,7 @@
 #                'Points': 80,
 #                'Taster': 'Michael Schachner',
 #                'Variety': 'White',
+#                'Name': 'Quinta dos Avidagos 2011 Avidagos Red (Douro)
 #                'Price': 15}}
 import pandas
 import os
@@ -19,6 +20,8 @@ def prepared_data():
             'Points': row['points'],
             'Taster': row['taster_name'],
             'Variety': row['variety'],
+            'Description': row['description'],
+            'Name': row['title'],
             'Price': row['price']
         }
     return data

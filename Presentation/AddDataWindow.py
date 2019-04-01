@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import re
-from Interactor.Interactor import add_data
+from Domain.AddDataWindowInteractor import add_data
 
 
 class AddDataWindow(tk.Toplevel):
@@ -74,8 +74,6 @@ class AddDataWindow(tk.Toplevel):
             else:
                 messagebox.showerror('Ошибка', 'Данные введены неправльно')
 
-        def close_window(event):
-            self.destroy()
-
-        ok_button.bind('<Button-1>', (lambda event: add_new_data()))
-        cancel_button.bind('<Button-1>', close_window)
+        ok_button['command'] = add_new_data
+        # ok_button.bind('<Button-1>', (lambda event: add_new_data()))
+        cancel_button['command'] = self.destroy
