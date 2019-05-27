@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import re
-from Domain.AddDataWindowInteractor import add_data
+from Domain.AddDataWindowInteractor import AddDataWindowInteractor
 
 
 class AddDataWindow(tk.Toplevel):
@@ -12,6 +12,8 @@ class AddDataWindow(tk.Toplevel):
         self.init_add_data_window()
 
     def init_add_data_window(self):
+
+        interactor = AddDataWindowInteractor.inst()
 
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
@@ -28,31 +30,37 @@ class AddDataWindow(tk.Toplevel):
         variety_entry = tk.Entry(self, width=50)
         variety_entry.grid(row=2, column=1, sticky='w', pady=3)
 
+        year_label = tk.Label(self, text='Год сбора:')
+        year_label.grid(row=3, column=0, sticky='w', padx=3, pady=3)
+        year_entry = tk.Entry(self, width=50)
+        year_entry.grid(row=3, column=1, sticky='w', pady=3)
+
         points_label = tk.Label(self, text='Оценка:')
-        points_label.grid(row=3, column=0, sticky='w', padx=3, pady=3)
+        points_label.grid(row=4, column=0, sticky='w', padx=3, pady=3)
         points_entry = tk.Entry(self, width=50)
-        points_entry.grid(row=3, column=1, sticky='w', pady=3)
+        points_entry.grid(row=4, column=1, sticky='w', pady=3)
 
         price_label = tk.Label(self, text='Цена, $:')
-        price_label.grid(row=4, column=0, sticky='w', padx=3, pady=3)
+        price_label.grid(row=5, column=0, sticky='w', padx=3, pady=3)
         price_entry = tk.Entry(self, width=50)
-        price_entry.grid(row=4, column=1, sticky='w', pady=3)
+        price_entry.grid(row=5, column=1, sticky='w', pady=3)
 
         taster_label = tk.Label(self, text='Сомелье:')
-        taster_label.grid(row=5, column=0, sticky='w', padx=3, pady=3)
+        taster_label.grid(row=6, column=0, sticky='w', padx=3, pady=3)
         taster_entry = tk.Entry(self, width=50)
-        taster_entry.grid(row=5, column=1, sticky='w', pady=3)
+        taster_entry.grid(row=6, column=1, sticky='w', pady=3)
 
         ok_button = tk.Button(self, text='Сохранить')
-        ok_button.grid(row=6, column=0, sticky='w', padx=10, pady=3)
+        ok_button.grid(row=7, column=0, sticky='w', padx=10, pady=3)
 
         cancel_button = tk.Button(self, text='Отмена')
-        cancel_button.grid(row=6, column=1, sticky='e', padx=10, pady=3)
+        cancel_button.grid(row=7, column=1, sticky='e', padx=10, pady=3)
 
         def add_new_data():
             country = country_entry.get()
             province = province_entry.get()
             variety = variety_entry.get()
+            year = year_entry.get()
             points = points_entry.get()
             price = price_entry.get()
             taster = taster_entry.get()
@@ -63,12 +71,13 @@ class AddDataWindow(tk.Toplevel):
                     and re.search('\d', province) is None \
                     and re.search('\W', variety) is None \
                     and re.search('\d', variety) is None \
+                    and re.search('\D', year) is None \
                     and re.search('\D', points) is None \
                     and re.search('\D', price) is None \
                     and re.search('\W', taster) is None \
                     and re.search('\d', taster) is None:
                 print(price)
-                add_data([country, province, variety, points, price, taster])
+                interactor.add_data([country, province, variety, year, points, price, taster], True)
                 self.destroy()
 
             else:

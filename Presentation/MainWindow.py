@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
-from Domain.MainWindowInteractor import provide_data_for_table
+from Domain.MainWindowInteractor import MainWindowInteractor
 from Presentation.AddDataWindow import AddDataWindow
+# from Domain.MainWindowInteractor import
 
 
 class MainWindow(tk.Frame):
@@ -10,6 +11,8 @@ class MainWindow(tk.Frame):
         self.init_main()
 
     def init_main(self):
+
+        interactor = MainWindowInteractor.inst()
 
         # Верстка главного окна
         add_data_button = tk.Button(self, text='Добавить запись')
@@ -58,7 +61,7 @@ class MainWindow(tk.Frame):
         type_of_sorting.current(1)
 
         # Заполнение таблицы данными из бд
-        data = provide_data_for_table()
+        data = interactor.provide_data_for_table()
         for i in list(data.keys()):
             if data[i]['Price'] != 'nan':
                 table.insert(parent='', index=i, values=[data[i]['Country'],
@@ -70,17 +73,26 @@ class MainWindow(tk.Frame):
                                                          data[i]['Taster']])
 
         # Добавление обработки нажатий
-        def add_data(self):
-            AddDataWindow()
-            data = provide_data_for_table()
-            data = data[list(data.keys())[-1]]
-            table.insert(parent='', index=list(data.keys())[-1],
-                         values=[data['Country'],
-                                 data['Province'],
-                                 data['Variety'],
-                                 data['Year'],
-                                 data['Points'],
-                                 data['Price'],
-                                 data['Taster']])
+        def open_add_data_window():
+            child_window = AddDataWindow()
+            child_window.wait_window()
+            if interactor.check_new_entry_added_status():
+                print('An entry created')
+                interactor.set_new_entry_added_false()
+                table.insert(parent='', index=)
+            else:
+                print("Entry creation has been canceled")
+            # last_entry = provide_last_entry()
+            # print(table.exists(last_entry))
+            # if not table.exists(last_entry):
+            #     print(provide_last_entry())
+            #     table.insert(parent='', index=list(last_entry.keys())[-1],
+            #                  values=[last_entry['Country'],
+            #                          last_entry['Province'],
+            #                          last_entry['Variety'],
+            #                          last_entry['Year'],
+            #                          last_entry['Points'],
+            #                          last_entry['Price'],
+            #                          last_entry['Taster']])
 
-        add_data_button['command'] = add_data
+        add_data_button['command'] = open_add_data_window
