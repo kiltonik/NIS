@@ -16,17 +16,27 @@ class MainWindow(tk.Frame):
 
         # Верстка главного окна
         add_data_button = tk.Button(self, text='Добавить запись')
-        add_data_button.grid(sticky='w', padx=2.5, pady=5)
+        add_data_button.grid(sticky='w',
+                             padx=2.5,
+                             pady=5)
 
         delete_data_button = tk.Button(self, text='Удалить запись')
-        delete_data_button.grid(column=1, row=0, sticky='w', padx=2.5, pady=5)
+        delete_data_button.grid(column=1,
+                                row=0,
+                                sticky='w',
+                                padx=2.5,
+                                pady=5)
 
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
-        y_scrollbar_for_table.grid(row=1, column=21, rowspan=5, sticky='ns')
+        y_scrollbar_for_table.grid(row=1,
+                                   column=21,
+                                   rowspan=5,
+                                   sticky='ns')
 
         table = ttk.Treeview(self, columns=('Country', 'Province', 'Variety',
                                             'Year', 'Points', 'Price', 'Taster'),
-                             show='headings', yscrollcommand=y_scrollbar_for_table.set)
+                             show='headings',
+                             yscrollcommand=y_scrollbar_for_table.set)
 
         table.heading('Country', text='Страна')
         table.heading('Province', text='Провинция')
@@ -44,33 +54,53 @@ class MainWindow(tk.Frame):
         table.column('Price', width=70, anchor=tk.CENTER)
         table.column('Taster', width=100, anchor=tk.CENTER)
 
-        table.grid(row=1, column=0, columnspan=20, rowspan=5, sticky='nsew', padx=2.5)
+        table.grid(row=1,
+                   column=0,
+                   columnspan=20,
+                   rowspan=5,
+                   sticky='nsew',
+                   padx=2.5)
 
         y_scrollbar_for_table.config(command=table.yview)
 
         label_for_sort = tk.Label(self, text='Сортировать по:')
-        label_for_sort.grid(row=0, column=2, sticky='w', padx=2.5, pady=5)
+        label_for_sort.grid(row=0,
+                            column=2,
+                            sticky='w',
+                            padx=2.5,
+                            pady=5)
 
-        columns_to_sort = ttk.Combobox(self, values=('Страна', 'Провинция',
-                                                     'Вид', 'Год сбора', 'Оценка', 'Цена', 'Сомелье'))
+        columns_to_sort = ttk.Combobox(self, values=('Страна',
+                                                     'Провинция',
+                                                     'Вид',
+                                                     'Год сбора',
+                                                     'Оценка',
+                                                     'Цена',
+                                                     'Сомелье'))
         columns_to_sort.grid(row=0, column=3, sticky='w', padx=2.5, pady=5)
         columns_to_sort.current(4)
 
         type_of_sorting = ttk.Combobox(self, values=('По возрастанию', 'По убыванию'))
-        type_of_sorting.grid(row=0, column=4, sticky='w', padx=2.5, pady=5)
+        type_of_sorting.grid(row=0,
+                             column=4,
+                             sticky='w',
+                             padx=2.5,
+                             pady=5)
         type_of_sorting.current(1)
 
         # Заполнение таблицы данными из бд
         data = interactor.provide_data_for_table()
         for i in list(data.keys()):
             if data[i]['Price'] != 'nan':
-                table.insert(parent='', index=i, values=[data[i]['Country'],
-                                                         data[i]['Province'],
-                                                         data[i]['Variety'],
-                                                         data[i]['Year'],
-                                                         data[i]['Points'],
-                                                         data[i]['Price'],
-                                                         data[i]['Taster']])
+                table.insert(parent='',
+                             index=i,
+                             values=[data[i]['Country'],
+                                     data[i]['Province'],
+                                     data[i]['Variety'],
+                                     data[i]['Year'],
+                                     data[i]['Points'],
+                                     data[i]['Price'],
+                                     data[i]['Taster']])
 
         # Добавление обработки нажатий
         def open_add_data_window():
@@ -78,8 +108,17 @@ class MainWindow(tk.Frame):
             child_window.wait_window()
             if interactor.check_new_entry_added_status():
                 print('An entry created')
+                last_entry, last_entry_id = interactor.provide_last_entry()
                 interactor.set_new_entry_added_false()
-                table.insert(parent='', index=)
+                table.insert(parent='',
+                             index=last_entry_id,
+                             values=[last_entry['Country'],
+                                     last_entry['Province'],
+                                     last_entry['Variety'],
+                                     last_entry['Year'],
+                                     last_entry['Points'],
+                                     last_entry['Price'],
+                                     last_entry['Taster']])
             else:
                 print("Entry creation has been canceled")
             # last_entry = provide_last_entry()
