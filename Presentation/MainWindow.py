@@ -12,7 +12,7 @@ class MainWindow(tk.Frame):
     def __init__(self, root):
         super().__init__(root)
         self.root = root
-        self.init_main()
+        self.init_main_window()
 
     def open_add_data_window(self, a):
         child_window = AddDataWindow()
@@ -36,7 +36,7 @@ class MainWindow(tk.Frame):
         child_window = TableItemInfoWindow(selected_entry)
         # print(int(list(table.selection())[0][1:]))
 
-    def init_main(self):
+    def init_main_window(self):
 
         # Верстка главного окна
 

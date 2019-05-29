@@ -11,9 +11,9 @@ class TableItemInfoWindow(tk.Toplevel, object):
         self.__entry_id = entry_id
         self.resizable(False, False)
         self.grab_set()
-        self.init_table_item_info()
+        self.init_table_item_info_window()
 
-    def init_table_item_info(self):
+    def init_table_item_info_window(self):
 
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
