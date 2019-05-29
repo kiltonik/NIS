@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
 import re
-from Domain.AddDataWindowInteractor import AddDataWindowInteractor
+from Domain.BDWindowsInteractor import BDWindowsInteractor
 
 
 class AddDataWindow(tk.Toplevel):
+
+    __interactor = BDWindowsInteractor.inst()
+
     def __init__(self):
         super().__init__()
         self.resizable(False, False)
@@ -12,8 +15,6 @@ class AddDataWindow(tk.Toplevel):
         self.init_add_data_window()
 
     def init_add_data_window(self):
-
-        interactor = AddDataWindowInteractor.inst()
 
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
@@ -53,7 +54,7 @@ class AddDataWindow(tk.Toplevel):
         ok_button = tk.Button(self, text='Сохранить')
         ok_button.grid(row=7, column=0, sticky='w', padx=10, pady=3)
 
-        cancel_button = tk.Button(self, text='Отмена')
+        cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())
         cancel_button.grid(row=7, column=1, sticky='e', padx=10, pady=3)
 
         def add_new_data():
@@ -77,12 +78,10 @@ class AddDataWindow(tk.Toplevel):
                     and re.search('\W', taster) is None \
                     and re.search('\d', taster) is None:
                 print(price)
-                interactor.add_data([country, province, variety, year, points, price, taster], True)
+                self.__interactor.add_entry([country, province, variety, year, points, price, taster])
                 self.destroy()
 
             else:
                 messagebox.showerror('Ошибка', 'Данные введены неправльно')
 
         ok_button['command'] = add_new_data
-        # ok_button.bind('<Button-1>', (lambda event: add_new_data()))
-        cancel_button['command'] = self.destroy

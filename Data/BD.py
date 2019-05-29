@@ -24,10 +24,10 @@ class BD(object):
         return BD.__instance
 
     def __init__(self):
-        print('works')
+        print('BD created')
 
     @staticmethod
-    def prepared_data():
+    def provide_prepared_data():
         data_csv = pandas.read_csv(os.getcwd()+'\\data1', encoding='utf-8')
         for index, row in data_csv.iterrows():
             BD.__data[index] = {
@@ -43,9 +43,12 @@ class BD(object):
             }
         return BD.__data
 
-    @staticmethod
-    def add_new_entry(a, *args):
+    def provide_entry_by_id(self, entry_id):
+        return self.__data[entry_id]
+
+    def add_new_entry(self, new_entry, *args):
         data_csv = pandas.read_csv(os.getcwd()+'\\data1', encoding='utf-8')
-        data_csv = data_csv.append(pandas.DataFrame({len(data_csv.index): a})
+        print(new_entry)
+        data_csv = data_csv.append(pandas.DataFrame({len(data_csv.index): new_entry})
                                    .transpose()).drop(['Unnamed: 0'], axis=1)
         data_csv.to_csv(os.getcwd()+'\\data1', encoding='utf-8')
