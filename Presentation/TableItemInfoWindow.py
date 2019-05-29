@@ -1,6 +1,5 @@
 import tkinter as tk
 from Domain.BDWindowsInteractor import BDWindowsInteractor
-# TODO Create a window with full info
 
 
 class TableItemInfoWindow(tk.Toplevel, object):

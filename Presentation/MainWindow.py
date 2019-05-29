@@ -3,7 +3,6 @@ from tkinter import ttk
 from Domain.MainWindowInteractor import MainWindowInteractor
 from Presentation.AddDataWindow import AddDataWindow
 from Presentation.TableItemInfoWindow import TableItemInfoWindow
-# from Domain.MainWindowInteractor import
 
 
 class MainWindow(tk.Frame):
@@ -113,7 +112,8 @@ class MainWindow(tk.Frame):
                    columnspan=20,
                    rowspan=5,
                    sticky='nsew',
-                   padx=2.5)
+                   padx=2.5,
+                   pady=2.5)
 
         table.bind("<Double-1>", lambda event: self.open_table_item_info(table.selection()))
 
