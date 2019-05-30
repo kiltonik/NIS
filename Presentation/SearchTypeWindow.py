@@ -15,6 +15,7 @@ class SearchTypeWindow(tk.Toplevel):
 
         country_radio_button = tk.Radiobutton(self, text='Страна')
         country_radio_button.grid(row=1, column=0, sticky='w', padx=3, pady=3)
+        # country_radio_button.
 
         province_type_radio_button = tk.Radiobutton(self, text='Провинция')
         province_type_radio_button.grid(row=2, column=0, sticky='w', padx=3, pady=3)
