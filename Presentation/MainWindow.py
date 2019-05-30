@@ -3,6 +3,7 @@ from tkinter import ttk
 from Domain.MainWindowInteractor import MainWindowInteractor
 from Presentation.AddDataWindow import AddDataWindow
 from Presentation.TableItemInfoWindow import TableItemInfoWindow
+from Presentation.SearchTypeWindow import SearchTypeWindow
 
 
 class MainWindow(tk.Frame):
@@ -14,16 +15,16 @@ class MainWindow(tk.Frame):
         self.root = root
         self.init_main_window()
 
-    def open_add_data_window(self, a):
+    def open_add_data_window(self, table):
         child_window = AddDataWindow()
         child_window.wait_window()
         if self.__interactor.check_new_entry_added_status():
             print('An entry created')
             last_entry, last_entry_id = self.__interactor.provide_last_entry()
             self.__interactor.set_new_entry_added_false()
-            a.insert(parent='',
-                     index=last_entry_id,
-                     values=[last_entry['Country'],
+            table.insert(parent='',
+                         index=last_entry_id,
+                         values=[last_entry['Country'],
                              last_entry['Province'],
                              last_entry['Variety'],
                              last_entry['Year'],
@@ -40,18 +41,6 @@ class MainWindow(tk.Frame):
 
         # Верстка главного окна
 
-        # add_data_button = tk.Button(self, text='Добавить запись')
-        # add_data_button.grid(sticky='w',
-        #                      padx=2.5,
-        #                      pady=5)
-        #
-        # delete_data_button = tk.Button(self, text='Удалить запись')
-        # delete_data_button.grid(column=1,
-        #                         row=0,
-        #                         sticky='w',
-        #                         padx=2.5,
-        #                         pady=5)
-
         tool_bar = tk.Menu(self.root)
         self.root.config(menu=tool_bar)
 
@@ -61,24 +50,23 @@ class MainWindow(tk.Frame):
         db_bar.add_command(label='Удалить запись')
         db_bar.add_command(label='Выгрузить базу данных')
 
-        sort_bar = tk.Menu(tool_bar)
-        sort_bar.add_command(label='Страна')
-        sort_bar.add_command(label='Провинция')
-        sort_bar.add_command(label='Вид')
-        sort_bar.add_command(label='Год сбора')
-        sort_bar.add_command(label='Оценка')
-        sort_bar.add_command(label='Цена')
-        sort_bar.add_command(label='Сомелье')
-
-        sort_type_bar = tk.Menu(sort_bar)
-        sort_type_bar.add_command(label='По возрастанию')
-        sort_type_bar.add_command(label='По убыванию')
-        sort_type_bar.add_command(label='В диапозоне')
+        # sort_bar = tk.Menu(tool_bar)
+        # sort_bar.add_command(label='Страна')
+        # sort_bar.add_command(label='Провинция')
+        # sort_bar.add_command(label='Вид')
+        # sort_bar.add_command(label='Год сбора')
+        # sort_bar.add_command(label='Оценка')
+        # sort_bar.add_command(label='Цена')
+        # sort_bar.add_command(label='Сомелье')
+        #
+        # sort_type_bar = tk.Menu(sort_bar)
+        # sort_type_bar.add_command(label='По возрастанию')
+        # sort_type_bar.add_command(label='По убыванию')
+        # sort_type_bar.add_command(label='В диапозоне')
 
         tool_bar.add_cascade(label='База данных', menu=db_bar)
-        tool_bar.add_cascade(label='Сортировки', menu=sort_bar)
-        sort_bar.add_cascade(label='Оценка', menu=sort_type_bar)
-        sort_bar.add_cascade(label='Цена', menu=sort_type_bar)
+        # tool_bar.add_cascade(label='Поиск', menu=search_bar)
+        tool_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
 
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
         y_scrollbar_for_table.grid(row=1,
@@ -91,7 +79,7 @@ class MainWindow(tk.Frame):
                              show='headings',
                              yscrollcommand=y_scrollbar_for_table.set)
 
-        table.heading('Country', text='Страна')
+        table.heading('Country', text='Страна', command=lambda: print(1))
         table.heading('Province', text='Провинция')
         table.heading('Variety', text='Вид')
         table.heading('Year', text='Год сбора')

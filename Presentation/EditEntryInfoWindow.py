@@ -8,6 +8,8 @@ class EditEntryInfoWindow(tk.Toplevel, object):
 
     def __init__(self, entry_id):
         super().__init__()
+        self.resizable(False, False)
+        self.grab_set()
         self.entry_id = entry_id
         self.init_edit_entry_info_window()
 
