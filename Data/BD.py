@@ -15,7 +15,9 @@ import os
 
 class BD(object):
     __instance = None
-    __data = {}
+    __wine_data = None
+    __province_data = None
+    __country__data = None
 
     @staticmethod
     def inst():
@@ -26,29 +28,48 @@ class BD(object):
     def __init__(self):
         print('BD created')
 
-    @staticmethod
-    def provide_prepared_data():
-        data_csv = pandas.read_csv(os.getcwd()+'\\data1', encoding='utf-8')
-        for index, row in data_csv.iterrows():
-            BD.__data[index] = {
-                'Country': row['country'],
-                'Province': row['province'],
-                'Points': row['points'],
-                'Taster': row['taster_name'],
-                'Variety': row['variety'],
-                'Year': row['year'],
-                'Description': row['description'],
-                'Name': row['title'],
-                'Price': row['price']
-            }
-        return BD.__data
+    def provide_wine_data(self):
+        if BD.__wine_data is None:
+            BD.__wine_data = {}
+            data_csv = pandas.read_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
+            for index, row in data_csv.iterrows():
+                BD.__wine_data[index] = {
+                    'Province id': row['province'],
+                    'Points': row['points'],
+                    'Taster': row['taster_name'],
+                    'Variety': row['variety'],
+                    'Year': row['year'],
+                    'Description': row['description'],
+                    'Name': row['title'],
+                    'Price': row['price']
+                }
+        return BD.__wine_data
+
+    def provide_province_data(self, province_id):
+        if BD.__province_data is None:
+            BD.__province_data = {}
+            data_csv = pandas.read_csv(os.getcwd()+'\\Province info.csv', encoding='utf-8')
+            for index, row in data_csv.iterrows():
+                BD.__province_data[index] = {
+                    'Province': row['province'],
+                    'Country id': row['id country']
+                }
+        return BD.__province_data[province_id]
+
+    def provide_country_data(self, country_id):
+        if BD.__country__data is None:
+            BD.__country__data = {}
+            data_csv = pandas.read_csv(os.getcwd()+'\\Country info.csv', encoding='utf-8')
+            for index, row in data_csv.iterrows():
+                BD.__country__data[index] = row['countries']
+        return BD.__country__data[country_id]
 
     def provide_entry_by_id(self, entry_id):
-        return self.__data[entry_id]
+        return BD.__wine_data[entry_id]
 
-    def add_new_entry(self, new_entry, *args):
-        data_csv = pandas.read_csv(os.getcwd()+'\\data1', encoding='utf-8')
-        print(new_entry)
+    def add_new_wine_entry(self, new_entry):
+        data_csv = pandas.read_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
         data_csv = data_csv.append(pandas.DataFrame({len(data_csv.index): new_entry})
-                                   .transpose()).drop(['Unnamed: 0'], axis=1)
-        data_csv.to_csv(os.getcwd()+'\\data1', encoding='utf-8')
+                                   .transpose(), axis=1)
+        data_csv.to_csv(os.getcwd()+'\\Wine info', encoding='utf-8')
+
