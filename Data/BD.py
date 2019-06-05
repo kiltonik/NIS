@@ -29,11 +29,11 @@ class BD(object):
         print('BD created')
 
     def provide_wine_data(self):
-        if BD.__wine_data is None:
-            BD.__wine_data = {}
+        if self.__wine_data is None:
+            self.__wine_data = {}
             data_csv = pandas.read_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
             for index, row in data_csv.iterrows():
-                BD.__wine_data[index] = {
+                self.__wine_data[index] = {
                     'Province id': row['province'],
                     'Points': row['points'],
                     'Taster': row['taster_name'],
@@ -43,33 +43,75 @@ class BD(object):
                     'Name': row['title'],
                     'Price': row['price']
                 }
-        return BD.__wine_data
+        return self.__wine_data
 
-    def provide_province_data(self, province_id):
-        if BD.__province_data is None:
-            BD.__province_data = {}
+    def provide_specific_province(self, province_id):
+        if self.__province_data is None:
+            self.__province_data = {}
             data_csv = pandas.read_csv(os.getcwd()+'\\Province info.csv', encoding='utf-8')
             for index, row in data_csv.iterrows():
-                BD.__province_data[index] = {
+                self.__province_data[index] = {
                     'Province': row['province'],
                     'Country id': row['id country']
                 }
-        return BD.__province_data[province_id]
+        return self.__province_data[province_id]
 
-    def provide_country_data(self, country_id):
-        if BD.__country__data is None:
-            BD.__country__data = {}
+    def provide_all_provinces(self):
+        data_csv = pandas.read_csv(os.getcwd() + '\\Province info.csv', encoding='utf-8')
+        return list(data_csv['province'])
+
+    def provide_specific_country(self, country_id):
+        if self.__country__data is None:
+            self.__country__data = {}
             data_csv = pandas.read_csv(os.getcwd()+'\\Country info.csv', encoding='utf-8')
             for index, row in data_csv.iterrows():
-                BD.__country__data[index] = row['countries']
-        return BD.__country__data[country_id]
+                self.__country__data[index] = row['countries']
+        return self.__country__data[country_id]
+
+    def provide_all_countries(self):
+        return set(pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')['countries'])
 
     def provide_entry_by_id(self, entry_id):
-        return BD.__wine_data[entry_id]
+        if self.__country__data is None:
+            self.__country__data = {}
+            data_csv = pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')
+            for index, row in data_csv.iterrows():
+                self.__country__data[index] = row['countries']
+        return self.__wine_data[entry_id]
+
+    def provide_last_entry(self):
+        if self.__country__data is None:
+            self.__country__data = {}
+            data_csv = pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')
+            for index, row in data_csv.iterrows():
+                self.__country__data[index] = row['countries']
+        last_entry_id = list(self.__wine_data.keys())[-1]
+        return self.__wine_data[last_entry_id], last_entry_id
 
     def add_new_wine_entry(self, new_entry):
-        data_csv = pandas.read_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
-        data_csv = data_csv.append(pandas.DataFrame({len(data_csv.index): new_entry})
-                                   .transpose(), axis=1)
-        data_csv.to_csv(os.getcwd()+'\\Wine info', encoding='utf-8')
+        last_wine_entry = len(self.__wine_data.keys())
+        self.__wine_data[len(self.__wine_data.keys())] = {'Province id': new_entry['province'],
+                    'Points': new_entry['points'],
+                    'Taster': new_entry['taster_name'],
+                    'Variety': new_entry['variety'],
+                    'Year': new_entry['year'],
+                    'Description': new_entry['description'],
+                    'Name': new_entry['title'],
+                    'Price': new_entry['price']}
+        pandas.read_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')\
+            .append(pandas.DataFrame({last_wine_entry: new_entry}).transpose())\
+            .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
 
+    def add_new_country(self, new_country):
+        last_country_index = len(self.__country__data.keys())
+        self.__country__data[last_country_index] = new_country
+        pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')\
+            .append(pandas.DataFrame({'countries': {last_country_index: new_country}}, columns=['countries']))\
+            .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Country info.csv', encoding='utf-8')
+
+    def add_new_province(self, new_province):
+        last_province_index = len(self.__province_data.keys())
+        self.__country__data[last_province_index] = new_province
+        pandas.read_csv(os.getcwd() + '\\Province info.csv', encoding='utf-8')\
+            .append(pandas.DataFrame({last_province_index: new_province}).transpose())\
+            .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Province info.csv', encoding='utf-8')
