@@ -1,4 +1,4 @@
-,province,id country
+,Province,Country id
 0,,35
 1,Pirque,16
 2,Moscatel do Douro,38
@@ -425,10 +425,5 @@
 423,Hungary,17
 424,Ella Valley,38
 425,Sithonia,38
-426,A,38
-427,B,26
-428,C,25
-429,D,5
-430,Q,46
-431,R,7
-432,e,50
+426,a,43
+427,q,44

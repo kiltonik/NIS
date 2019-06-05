@@ -1,6 +1,8 @@
 import tkinter as tk
 from Domain.BDWindowsInteractor import BDWindowsInteractor
 from Presentation.EditEntryInfoWindow import EditEntryInfoWindow
+from Domain.MainWindowInteractor import MainWindowInteractor
+
 
 class TableItemInfoWindow(tk.Toplevel, object):
 
@@ -60,13 +62,15 @@ class TableItemInfoWindow(tk.Toplevel, object):
         description_text_field = tk.Message(self, width=300)
         description_text_field.grid(row=8, column=1, sticky='w', padx=3, pady=3)
 
-        edit_button = tk.Button(self, text='Изменить', command=lambda: {EditEntryInfoWindow(self.__entry_id), self.destroy()})
+        edit_button = tk.Button(self, text='Изменить', command=lambda: {EditEntryInfoWindow(self.__entry_id),
+                                                                        self.destroy()})
         edit_button.grid(row=9, column=0, sticky='wsn', padx=3, pady=3)
 
-        delete_button = tk.Button(self, text='Удалить')
+        delete_button = tk.Button(self, text='Удалить', command=lambda: {self.__interactor.
+                                  delete_wine_entry(self.__entry_id, True),
+                                  MainWindowInteractor.inst().set_entry_deleted(self.__entry_id), self.destroy()})
         delete_button.grid(row=9, column=1, sticky='e', padx=3, pady=3)
 
-        print(self.__entry_id)
         entry = self.__interactor.provide_certain_entry(self.__entry_id)
         country_text_field['text'] = entry['Country']
         province_text_field['text'] = entry['Province']

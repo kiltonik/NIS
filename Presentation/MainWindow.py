@@ -4,6 +4,7 @@ from Domain.MainWindowInteractor import MainWindowInteractor
 from Presentation.AddDataWindow import AddDataWindow
 from Presentation.TableItemInfoWindow import TableItemInfoWindow
 from Presentation.SearchTypeWindow import SearchTypeWindow
+from Presentation.SeacrhEntryWindow import SearchEntryWindow
 
 
 class MainWindow(tk.Frame):
@@ -32,10 +33,13 @@ class MainWindow(tk.Frame):
                              last_entry['Price'],
                              last_entry['Taster']])
 
-    def open_table_item_info(self, selected_entry):
-        print('Item selected')
-        child_window = TableItemInfoWindow(selected_entry)
-        # print(int(list(table.selection())[0][1:]))
+    def open_table_item_info(self, table):
+        child_window = TableItemInfoWindow(table.selection())
+        child_window.wait_window()
+        print(self.__interactor.check_entry_deleted_status())
+        if self.__interactor.check_entry_deleted_status() is not None:
+            table.delete(table.selection())
+            self.__interactor.set_entry_deleted_none()
 
     def init_main_window(self):
 
@@ -46,26 +50,10 @@ class MainWindow(tk.Frame):
 
         db_bar = tk.Menu(tool_bar)
         db_bar.add_command(label='Добавить запись', command=lambda: self.open_add_data_window(table))
-        db_bar.add_command(label='Изменить запись')
-        db_bar.add_command(label='Удалить запись')
+        db_bar.add_command(label='Найти запись', command=lambda: SearchEntryWindow().wait_window())
         db_bar.add_command(label='Выгрузить базу данных')
 
-        # sort_bar = tk.Menu(tool_bar)
-        # sort_bar.add_command(label='Страна')
-        # sort_bar.add_command(label='Провинция')
-        # sort_bar.add_command(label='Вид')
-        # sort_bar.add_command(label='Год сбора')
-        # sort_bar.add_command(label='Оценка')
-        # sort_bar.add_command(label='Цена')
-        # sort_bar.add_command(label='Сомелье')
-        #
-        # sort_type_bar = tk.Menu(sort_bar)
-        # sort_type_bar.add_command(label='По возрастанию')
-        # sort_type_bar.add_command(label='По убыванию')
-        # sort_type_bar.add_command(label='В диапозоне')
-
         tool_bar.add_cascade(label='База данных', menu=db_bar)
-        # tool_bar.add_cascade(label='Поиск', menu=search_bar)
         tool_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
 
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
@@ -103,34 +91,9 @@ class MainWindow(tk.Frame):
                    padx=2.5,
                    pady=2.5)
 
-        table.bind("<Double-1>", lambda event: self.open_table_item_info(table.selection()))
+        table.bind("<Double-1>", lambda event: self.open_table_item_info(table))
 
         y_scrollbar_for_table.config(command=table.yview)
-
-        # label_for_sort = tk.Label(self, text='Сортировать по:')
-        # label_for_sort.grid(row=0,
-        #                     column=2,
-        #                     sticky='w',
-        #                     padx=2.5,
-        #                     pady=5)
-        #
-        # columns_to_sort = ttk.Combobox(self, values=('Страна',
-        #                                              'Провинция',
-        #                                              'Вид',
-        #                                              'Год сбора',
-        #                                              'Оценка',
-        #                                              'Цена',
-        #                                              'Сомелье'))
-        # columns_to_sort.grid(row=0, column=3, sticky='w', padx=2.5, pady=5)
-        # columns_to_sort.current(4)
-        #
-        # type_of_sorting = ttk.Combobox(self, values=('По возрастанию', 'По убыванию'))
-        # type_of_sorting.grid(row=0,
-        #                      column=4,
-        #                      sticky='w',
-        #                      padx=2.5,
-        #                      pady=5)
-        # type_of_sorting.current(1)
 
         # Заполнение таблицы данными из бд
         data = self.__interactor.provide_data_for_table()
@@ -145,6 +108,3 @@ class MainWindow(tk.Frame):
                                      data[i]['Points'],
                                      data[i]['Price'],
                                      data[i]['Taster']])
-
-        # Добавление обработки нажатий на элементы таблицы
-        # add_data_button['command'] = open_add_data_window
