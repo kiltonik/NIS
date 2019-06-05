@@ -1,6 +1,5 @@
 
-# catalog = {1: {'Country': 'Itally',
-#                'Province': 'Rosso',
+# wine = {1: {'Province id': 1,
 #                'Points': 80,
 #                'Taster': 'Michael Schachner',
 #                'Variety': 'White',
@@ -9,6 +8,10 @@
 #                               'drinkable, although it will certainly be better from 2016',
 #                'Name': 'Quinta dos Avidagos 2011 Avidagos Red (Douro)',
 #                'Price': 15}}
+# province = {1:{'Province': название процинции,
+#               'Country id': 1}}
+# country = {1: 'France'}
+
 import pandas
 import os
 
@@ -69,7 +72,10 @@ class BD(object):
         return self.__country__data[country_id]
 
     def provide_all_countries(self):
-        return set(pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')['countries'])
+        if self.__country__data is None:
+            return set(pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')['countries'])
+        else:
+            return [i[1] for i in self.__country__data.items()]
 
     def provide_entry_by_id(self, entry_id):
         if self.__country__data is None:
@@ -89,8 +95,8 @@ class BD(object):
         return self.__wine_data[last_entry_id], last_entry_id
 
     def add_new_wine_entry(self, new_entry):
-        last_wine_entry = len(self.__wine_data.keys())
-        self.__wine_data[len(self.__wine_data.keys())] = {'Province id': new_entry['province'],
+        last_wine_entry = list(self.__wine_data.keys())[-1] + 1
+        self.__wine_data[last_wine_entry] = {'Province id': new_entry['province'],
                     'Points': new_entry['points'],
                     'Taster': new_entry['taster_name'],
                     'Variety': new_entry['variety'],
@@ -103,15 +109,18 @@ class BD(object):
             .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Wine info.csv', encoding='utf-8')
 
     def add_new_country(self, new_country):
-        last_country_index = len(self.__country__data.keys())
+        last_country_index = list(self.__country__data.keys())[-1] + 1
         self.__country__data[last_country_index] = new_country
         pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')\
             .append(pandas.DataFrame({'countries': {last_country_index: new_country}}, columns=['countries']))\
             .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Country info.csv', encoding='utf-8')
 
     def add_new_province(self, new_province):
-        last_province_index = len(self.__province_data.keys())
-        self.__country__data[last_province_index] = new_province
+        last_province_index = list(self.__province_data.keys())[-1] + 1
+        self.__province_data[last_province_index] = new_province
         pandas.read_csv(os.getcwd() + '\\Province info.csv', encoding='utf-8')\
             .append(pandas.DataFrame({last_province_index: new_province}).transpose())\
             .drop('Unnamed: 0', axis=1).to_csv(os.getcwd()+'\\Province info.csv', encoding='utf-8')
+
+    def delete_wine_entry(self, entry_id):
+        del self.__wine_data[entry_id]
