@@ -1,10 +1,12 @@
 import tkinter as tk
 from Domain.BDWindowsInteractor import BDWindowsInteractor
+from Domain.MainWindowInteractor import MainWindowInteractor
 
 
 class EditEntryInfoWindow(tk.Toplevel, object):
 
     __interactor = BDWindowsInteractor.inst()
+    __main_window_interactor = MainWindowInteractor.inst()
 
     def __init__(self, entry_id):
         super().__init__()
@@ -81,7 +83,16 @@ class EditEntryInfoWindow(tk.Toplevel, object):
             taster_entry.get(index1="1.0", index2="end")[:-1],
             description_entry.get(index1="1.0", index2="end")[:-1],
             title_entry.get(index1="1.0", index2="end")[:-1],
-        ], self.entry_id, True), self.destroy()})
+        ], self.entry_id, True),
+            self.__main_window_interactor.set_entry_edited([[country_entry.get(index1="1.0", index2="end")[:-1],
+                                                            province_entry.get(index1="1.0", index2="end")[:-1],
+                                                            variety_entry.get(index1="1.0", index2="end")[:-1],
+                                                            year_entry.get(),
+                                                            points_entry.get(),
+                                                            price_entry.get(),
+                                                            taster_entry.get(index1="1.0", index2="end")[:-1]
+                                                             ], self.entry_id]),
+            self.destroy()})
         ok_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
 
         cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())

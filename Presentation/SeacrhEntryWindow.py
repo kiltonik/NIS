@@ -63,7 +63,7 @@ class SearchEntryWindow(tk.Toplevel):
         description_entry.grid(row=8, column=1, sticky='w', padx=3, pady=3)
 
         search_button = tk.Button(self, text='Найти')
-        search_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
+        search_button.grid(row=9, column=0, sticky='we', padx=10, pady=3)
 
         def search_entry():
             country = country_entry.get(index1="1.0", index2="end")
@@ -89,11 +89,14 @@ class SearchEntryWindow(tk.Toplevel):
                     and re.search('\d', taster) is None\
                     and re.search('[^\w\s]', title) is None \
                     and re.search('\d', title) is None:
-                TableItemInfoWindow(self.__interactor.provide_entry_id_in_table([country[:-1], province[:-1],
+                try:
+                    TableItemInfoWindow(self.__interactor.provide_entry_id_in_table([country[:-1], province[:-1],
                                                                                  variety[:-1], year, points,
                                                                                  price, taster[:-1],
-                                                                                 description[:-1], title[:-1]]))
-
+                                                                                 description[:-1], title[:-1]]))\
+                        .wait_window()
+                except ValueError:
+                    messagebox.showerror('Ошибка', 'Запись не найдена')
                 self.destroy()
 
             else:
