@@ -36,10 +36,38 @@ class MainWindow(tk.Frame):
     def open_table_item_info(self, table):
         child_window = TableItemInfoWindow(table.selection())
         child_window.wait_window()
-        print(self.__interactor.check_entry_deleted_status())
+        print(self.__interactor.check_entry_edited_status())
         if self.__interactor.check_entry_deleted_status() is not None:
             table.delete(table.selection())
             self.__interactor.set_entry_deleted_none()
+        if self.__interactor.check_entry_edited_status() is not None:
+            table.item(table.selection(), values=self.__interactor.check_entry_edited_status())
+            self.__interactor.set_entry_edited_none()
+
+    def open_search_entry_window(self, table):
+        SearchEntryWindow().wait_window()
+        if self.__interactor.check_entry_deleted_status() is not None:
+            index = self.__interactor.check_entry_deleted_status()
+            if int(index, 16) < 16:
+                index = 'I00'+str(index)
+            elif int(index, 16) < 256:
+                index = 'I0'+str(index)
+            else:
+                index = 'I'+str(index)
+            table.delete(self.__interactor.check_entry_deleted_status())
+            self.__interactor.set_entry_deleted_none()
+        entry_edited_status = self.__interactor.check_entry_edited_status()
+        print(entry_edited_status)
+        if entry_edited_status is not None:
+            index = entry_edited_status[1][2:]
+            if int(index, 16) < 16:
+                index = 'I00'+str(index)
+            elif int(index, 16) < 256:
+                index = 'I0'+str(index)
+            else:
+                index = 'I'+str(index)
+            table.item(index, values=entry_edited_status[0])
+            self.__interactor.set_entry_edited_none()
 
     def init_main_window(self):
 
@@ -50,7 +78,7 @@ class MainWindow(tk.Frame):
 
         db_bar = tk.Menu(tool_bar)
         db_bar.add_command(label='Добавить запись', command=lambda: self.open_add_data_window(table))
-        db_bar.add_command(label='Найти запись', command=lambda: SearchEntryWindow().wait_window())
+        db_bar.add_command(label='Найти запись', command=lambda: self.open_search_entry_window(table))
         db_bar.add_command(label='Выгрузить базу данных')
 
         tool_bar.add_cascade(label='База данных', menu=db_bar)

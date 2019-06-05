@@ -43,9 +43,13 @@ class BDWindowsInteractor:
             self.__MainWindowInteractor.set_new_entry_added_true()
 
     def provide_certain_entry(self, entry_id):
+
+        if list(entry_id)[0][1:] == '':
+            entry_id = [entry_id[1:]]
         certain_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in
-                     list(self.__BD.provide_entry_by_id(
-                         list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1]).items())])
+                              list(self.__BD.provide_entry_by_id(
+                                  list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1])
+                                   .items())])
         if certain_entry['Province id'] != 'Нет данных':
             province_data = self.__BD.provide_specific_province(int(certain_entry['Province id']))
             certain_entry['Province'] = province_data['Province']
@@ -56,24 +60,27 @@ class BDWindowsInteractor:
         return certain_entry
 
     def provide_entry_id_in_table(self, entry):
+        if entry[3] != 'Нет данных':
+            entry[3] = float(entry[3])
+        if entry[5] != 'Нет данных':
+            entry[5] = float(entry[5])
+        if entry[4] != 'Нет данных':
+            entry[4] = int(entry[4])
+        for i in range(len(entry)):
+            if entry[i] == '\n' or entry[i] == 'Нет данных' or entry[i] == '':
+                entry[i] = None
         entry = {'Province id': self.__BD.provide_all_provinces().index(entry[1]),
-                 'Description': entry[7],
                  'Points': entry[4],
-                 'Year': entry[3],
                  'Taster': entry[6],
                  'Variety': entry[2],
-                 'Price': float(entry[5]),
-                 'Name': entry[8]}
+                 'Year': entry[3],
+                 'Description': entry[7],
+                 'Name': entry[8],
+                 'Price': entry[5]}
         wine_data = self.__BD.provide_wine_data()
-        print(wine_data[10005])
         for i in wine_data:
-            if i == 10005:
-                print(entry)
-                print(wine_data[i])
             if wine_data[i] == entry:
-                print(i)
-                print(hex(i))
-                return hex(i)
+                return hex(i+1)
 
     def delete_wine_entry(self, entry, index):
         if not index:
@@ -84,6 +91,8 @@ class BDWindowsInteractor:
                     break
             self.__BD.delete_wine_entry(i)
         else:
+            if list(entry)[0][1:] == '':
+                entry = [entry[1:]]
             self.__BD.delete_wine_entry(list(self.__BD.provide_wine_data().keys())[int(list(entry)[0][1:], 16) - 1])
 
     def edit_entry(self, new_data, entry, index):
@@ -95,6 +104,8 @@ class BDWindowsInteractor:
                     break
 
         else:
+            if list(entry)[0][1:] == '':
+                entry = [entry[1:]]
             if new_data[0] not in set(self.__BD.provide_all_countries()):
                 self.__BD.add_new_country(new_data[0])
             all_provinces = self.__BD.provide_all_provinces()

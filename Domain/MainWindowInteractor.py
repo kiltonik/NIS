@@ -6,6 +6,7 @@ class MainWindowInteractor(object):
     __new_entry_added = False
     __BD = BD.inst()
     __entry_deleted = None
+    __entry_edited = None
 
     @staticmethod
     def inst():
@@ -33,6 +34,15 @@ class MainWindowInteractor(object):
 
     def check_entry_deleted_status(self):
         return self.__entry_deleted
+
+    def set_entry_edited_none(self):
+        self.__entry_edited = None
+
+    def set_entry_edited(self, entry_id):
+        self.__entry_edited = entry_id
+
+    def check_entry_edited_status(self):
+        return self.__entry_edited
 
     def provide_data_for_table(self):
         wine_data = self.__BD.provide_wine_data()

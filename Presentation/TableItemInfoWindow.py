@@ -62,7 +62,7 @@ class TableItemInfoWindow(tk.Toplevel, object):
         description_text_field = tk.Message(self, width=300)
         description_text_field.grid(row=8, column=1, sticky='w', padx=3, pady=3)
 
-        edit_button = tk.Button(self, text='Изменить', command=lambda: {EditEntryInfoWindow(self.__entry_id),
+        edit_button = tk.Button(self, text='Изменить', command=lambda: {EditEntryInfoWindow(self.__entry_id).wait_window(),
                                                                         self.destroy()})
         edit_button.grid(row=9, column=0, sticky='wsn', padx=3, pady=3)
 
@@ -70,7 +70,6 @@ class TableItemInfoWindow(tk.Toplevel, object):
                                   delete_wine_entry(self.__entry_id, True),
                                   MainWindowInteractor.inst().set_entry_deleted(self.__entry_id), self.destroy()})
         delete_button.grid(row=9, column=1, sticky='e', padx=3, pady=3)
-
         entry = self.__interactor.provide_certain_entry(self.__entry_id)
         country_text_field['text'] = entry['Country']
         province_text_field['text'] = entry['Province']
