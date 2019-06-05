@@ -2,9 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 import re
 from Domain.BDWindowsInteractor import BDWindowsInteractor
+from Presentation.TableItemInfoWindow import TableItemInfoWindow
 
 
-class AddDataWindow(tk.Toplevel):
+class SearchEntryWindow(tk.Toplevel):
 
     __interactor = BDWindowsInteractor.inst()
 
@@ -12,9 +13,9 @@ class AddDataWindow(tk.Toplevel):
         super().__init__()
         self.resizable(False, False)
         self.grab_set()
-        self.init_add_data_window()
+        self.init_search_entry_window()
 
-    def init_add_data_window(self):
+    def init_search_entry_window(self):
 
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
@@ -61,13 +62,10 @@ class AddDataWindow(tk.Toplevel):
         description_entry = tk.Text(self, width=50, height=5)
         description_entry.grid(row=8, column=1, sticky='w', padx=3, pady=3)
 
-        ok_button = tk.Button(self, text='Сохранить')
-        ok_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
+        search_button = tk.Button(self, text='Найти')
+        search_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
 
-        cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())
-        cancel_button.grid(row=9, column=1, sticky='e', padx=10, pady=3)
-
-        def add_new_data():
+        def search_entry():
             country = country_entry.get(index1="1.0", index2="end")
             province = province_entry.get(index1="1.0", index2="end")
             variety = variety_entry.get(index1="1.0", index2="end")
@@ -91,12 +89,15 @@ class AddDataWindow(tk.Toplevel):
                     and re.search('\d', taster) is None\
                     and re.search('[^\w\s]', title) is None \
                     and re.search('\d', title) is None:
-                self.__interactor.add_entry([country[:-1], province[:-1], variety[:-1],
-                                             year, points, price, taster[:-1], description[:-1], title[:-1]])
+                TableItemInfoWindow(self.__interactor.provide_entry_id_in_table([country[:-1], province[:-1],
+                                                                                 variety[:-1], year, points,
+                                                                                 price, taster[:-1],
+                                                                                 description[:-1], title[:-1]]))
+
                 self.destroy()
 
             else:
                 messagebox.showerror('Ошибка', 'Данные введены неправильно')
 
-        ok_button['command'] = add_new_data
+        search_button['command'] = search_entry
 

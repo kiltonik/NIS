@@ -5,6 +5,7 @@ class MainWindowInteractor(object):
     __instance = None
     __new_entry_added = False
     __BD = BD.inst()
+    __entry_deleted = None
 
     @staticmethod
     def inst():
@@ -23,6 +24,15 @@ class MainWindowInteractor(object):
 
     def check_new_entry_added_status(self):
         return self.__new_entry_added
+
+    def set_entry_deleted_none(self):
+        self.__entry_deleted = None
+
+    def set_entry_deleted(self, entry_id):
+        self.__entry_deleted = entry_id
+
+    def check_entry_deleted_status(self):
+        return self.__entry_deleted
 
     def provide_data_for_table(self):
         wine_data = self.__BD.provide_wine_data()
@@ -47,9 +57,9 @@ class MainWindowInteractor(object):
         last_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in list(last_entry.items())])
         if last_entry['Province id'] != 'Нет данных':
             province_data = self.__BD.provide_specific_province(int(last_entry['Province id']))
-            last_entry['Province'] = province_data['province']
+            last_entry['Province'] = province_data['Province']
             last_entry['Country'] = self.__BD.provide_specific_country(
-                province_data['id country'])
+                province_data['Country id'])
 
         if last_entry['Year'] != 'Нет данных':
             last_entry['Year'] = int(last_entry['Year'])
