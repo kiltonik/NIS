@@ -1,6 +1,6 @@
 import tkinter as tk
 from Domain.BDWindowsInteractor import BDWindowsInteractor
-
+from Presentation.EditEntryInfoWindow import EditEntryInfoWindow
 
 class TableItemInfoWindow(tk.Toplevel, object):
 
@@ -50,20 +50,23 @@ class TableItemInfoWindow(tk.Toplevel, object):
         taster_text_field = tk.Message(self, width=300)
         taster_text_field.grid(row=6, column=1, sticky='w', padx=3, pady=3)
 
-        description_label = tk.Label(self, text='Описание:')
-        description_label.grid(row=7, column=0, sticky='w', padx=3, pady=3)
-        description_text_field = tk.Message(self, width=300)
-        description_text_field.grid(row=7, column=1, sticky='w', padx=3, pady=3)
+        title_label = tk.Label(self, text='Название:')
+        title_label.grid(row=7, column=0, sticky='w', padx=3, pady=3)
+        title_text_field = tk.Message(self, width=300)
+        title_text_field.grid(row=7, column=1, sticky='w', padx=3, pady=3)
 
-        edit_button = tk.Button(self, text='Изменить')
-        edit_button.grid(row=8, column=0, sticky='wsn', padx=3, pady=3)
+        description_label = tk.Label(self, text='Описание:')
+        description_label.grid(row=8, column=0, sticky='w', padx=3, pady=3)
+        description_text_field = tk.Message(self, width=300)
+        description_text_field.grid(row=8, column=1, sticky='w', padx=3, pady=3)
+
+        edit_button = tk.Button(self, text='Изменить', command=lambda: {EditEntryInfoWindow(self.__entry_id), self.destroy()})
+        edit_button.grid(row=9, column=0, sticky='wsn', padx=3, pady=3)
 
         delete_button = tk.Button(self, text='Удалить')
-        delete_button.grid(row=8, column=1, sticky='e', padx=3, pady=3)
+        delete_button.grid(row=9, column=1, sticky='e', padx=3, pady=3)
 
-        # close_button = tk.Button(self, text='Закрыть', command=lambda: self.destroy())
-        # close_button.grid(row=8, column=1, sticky='e', padx=3, pady=3)
-
+        print(self.__entry_id)
         entry = self.__interactor.provide_certain_entry(self.__entry_id)
         country_text_field['text'] = entry['Country']
         province_text_field['text'] = entry['Province']
@@ -73,3 +76,4 @@ class TableItemInfoWindow(tk.Toplevel, object):
         price_text_field['text'] = str(entry['Price'])
         taster_text_field['text'] = entry['Taster']
         description_text_field['text'] = entry['Description']
+        title_text_field['text'] = entry['Name']

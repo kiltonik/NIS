@@ -28,8 +28,7 @@ class BDWindowsInteractor:
             all_provinces = self.__BD.provide_all_provinces()
             if new_data[1] not in set(all_provinces):
                 self.__BD.add_new_province({'province': new_data[1],
-                                            'id country': list(self.__BD.provide_all_countries()).index(new_data[0])+3})
-            print(self.__BD.provide_all_countries())
+                                            'id country': self.__BD.provide_all_countries().index(new_data[0])})
             all_provinces = self.__BD.provide_all_provinces()
             prepared_new_data = {'province': all_provinces.index(new_data[1]),
                                      'description': new_data[7],
@@ -45,10 +44,21 @@ class BDWindowsInteractor:
 
     def provide_certain_entry(self, entry_id):
         certain_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in
-                     list(self.__BD.provide_entry_by_id(int(list(entry_id)[0][1:], 16)-1).items())])
+                     list(self.__BD.provide_entry_by_id(
+                         list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1]).items())])
         if certain_entry['Province id'] != 'Нет данных':
             province_data = self.__BD.provide_specific_province(int(certain_entry['Province id']))
             certain_entry['Province'] = province_data['Province']
             certain_entry['Country'] = self.__BD.provide_specific_country(
                 province_data['Country id'])
+        if certain_entry['Year'] != 'Нет данных':
+            certain_entry['Year'] = int(certain_entry['Year'])
         return certain_entry
+
+    def delete_wine_entry(self, entry):
+        all_wines = self.__BD.provide_wine_data()
+        for i in all_wines:
+            if all_wines[i] == entry:
+                entry_id = i
+                break
+        self.__BD.delete_wine_entry(entry_id)

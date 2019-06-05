@@ -27,7 +27,7 @@ class MainWindow(tk.Frame):
                          values=[last_entry['Country'],
                              last_entry['Province'],
                              last_entry['Variety'],
-                             last_entry['Year'],
+                             int(last_entry['Year']),
                              last_entry['Points'],
                              last_entry['Price'],
                              last_entry['Taster']])
