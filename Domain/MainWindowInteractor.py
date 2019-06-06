@@ -2,6 +2,10 @@ from Data.BD import BD
 
 
 class MainWindowInteractor(object):
+    """
+    Синглтон для обработки информации содержащейся в базе данных, а также обработке бизнес логики различных событий
+    Автор Вальков М.Д. БИВ185
+    """
     __instance = None
     __new_entry_added = False
     __BD = BD.inst()
@@ -10,6 +14,11 @@ class MainWindowInteractor(object):
 
     @staticmethod
     def inst():
+        """
+        Реализует синглтон поведение класса
+        :return: обьект MainWindowInteractor
+        Автор Вальков М.Д. БИВ185
+        """
         if MainWindowInteractor.__instance is None:
             MainWindowInteractor.__instance = MainWindowInteractor()
         return MainWindowInteractor.__instance
@@ -45,6 +54,11 @@ class MainWindowInteractor(object):
         return self.__entry_edited
 
     def provide_data_for_table(self):
+        """
+        Получает данные из базы данных и обрабатывает их, чтобы вернуть словарь для отображения в таблице
+        :return: словарь с готовыми данными для отображения их в таблице
+        Автор Вальков М.Д. БИВ185
+        """
         wine_data = self.__BD.provide_wine_data()
         final_data = {}
         for i in list(wine_data.keys()):
@@ -63,6 +77,11 @@ class MainWindowInteractor(object):
         return final_data
 
     def provide_last_entry(self):
+        """
+        Получает последнюю запись из базы данных и обрабатывает её, чтобы вернуть словарь для отображения в таблице
+        :return: словарь содержащий последнюю запись
+        Автор Вальков М.Д. БИВ185
+        """
         last_entry, last_entry_id = self.__BD.provide_last_entry()
         last_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in list(last_entry.items())])
         if last_entry['Province id'] != 'Нет данных':

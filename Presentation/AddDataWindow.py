@@ -5,7 +5,11 @@ from Domain.BDWindowsInteractor import BDWindowsInteractor
 
 
 class AddDataWindow(tk.Toplevel):
-
+    """
+    Класс отвечающий за создание окна добавления записей
+    __interactor - обьект класса BDWindowsInteractor
+    Автора Кабисов Г.Ч. БИВ185
+    """
     __interactor = BDWindowsInteractor.inst()
 
     def __init__(self):
@@ -15,7 +19,11 @@ class AddDataWindow(tk.Toplevel):
         self.init_add_data_window()
 
     def init_add_data_window(self):
-
+        """
+        Иниацилизирует окно добавления записи
+        :return: -
+        Автор Кабисов Г.Ч. БИВ185
+        """
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
         country_entry = tk.Text(self, width=50, height=1)
@@ -68,6 +76,12 @@ class AddDataWindow(tk.Toplevel):
         cancel_button.grid(row=9, column=1, sticky='e', padx=10, pady=3)
 
         def add_new_data():
+            """
+            Считывает данные введенные пользователем из полей и передает их в интерактор, длядобавления в базу данных
+            Выводит ошибку, если данные введены неправильно
+            :return: -
+            Автор Кабисов Г.Ч. БИВ185
+            """
             country = country_entry.get(index1="1.0", index2="end")
             province = province_entry.get(index1="1.0", index2="end")
             variety = variety_entry.get(index1="1.0", index2="end")
