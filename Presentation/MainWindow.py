@@ -78,7 +78,7 @@ class MainWindow(tk.Frame):
                                             'Year', 'Points', 'Price', 'Taster'),
                              show='headings',
                              yscrollcommand=y_scrollbar_for_table.set)
-
+        #TODO command=lambda: print(1) - зачем?
         table.heading('Country', text='Страна', command=lambda: print(1))
         table.heading('Province', text='Провинция')
         table.heading('Variety', text='Вид')
