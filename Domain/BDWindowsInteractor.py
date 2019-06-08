@@ -104,6 +104,12 @@ class BDWindowsInteractor:
                 return hex(i+1)
 
     def delete_wine_entry(self, entry, index):
+        """
+                Удаляет выбранный элемент
+                :param entry, index: данные о записи, введенные пользователем, индекс записи
+                :return: -
+                Автор Ставинский Я.Т. БИВ185
+        """
         if not index:
             all_wines = self.__BD.provide_wine_data()
             for i in all_wines:
@@ -117,6 +123,12 @@ class BDWindowsInteractor:
             self.__BD.delete_wine_entry(list(self.__BD.provide_wine_data().keys())[int(list(entry)[0][1:], 16) - 1])
 
     def edit_entry(self, new_data, entry, index):
+        """
+                        Изменение данных
+                        :param new_data, entry, index: данные о записи, введенные пользователем, индекс записи
+                        :return: -
+                        Автор Соловьев М.М. БИВ185
+        """
         if not index:
             all_wines = self.__BD.provide_wine_data()
             for i in all_wines:

@@ -6,6 +6,10 @@ from Data.BD import BD
 
 
 class SortedDataWindow(tk.Toplevel):
+    """
+        Класс отвечающий за создание окна отсортированных записей записей
+        Автор: Соловьев М.М. БИВ185
+    """
     def __init__(self, sort_by, value_to_search):
         super().__init__()
         self.sort_by = sort_by
@@ -16,6 +20,11 @@ class SortedDataWindow(tk.Toplevel):
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):
+        """
+                Инициирует  окно отсортированных данных
+                :return: -
+                Соловеьв М.М. БИВ185
+        """
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
         y_scrollbar_for_table.grid(row=1,
                                    column=21,
@@ -49,8 +58,7 @@ class SortedDataWindow(tk.Toplevel):
                    padx=2.5,
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
-
-
+    #qq
 
         for i in list(self.sorted_data.keys()):
             table.insert(parent='',
