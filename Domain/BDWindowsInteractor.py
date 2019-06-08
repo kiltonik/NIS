@@ -3,6 +3,10 @@ from Domain.MainWindowInteractor import MainWindowInteractor
 
 
 class BDWindowsInteractor:
+    """
+    Синглтон для обработки данных получаемых из базы данных и предоставления готовых данных в классы,
+    отвечающие за интерыейс программы
+    """
     __instance = None
     __BD = BD.inst()
     __MainWindowInteractor = MainWindowInteractor.inst()
@@ -12,11 +16,22 @@ class BDWindowsInteractor:
 
     @staticmethod
     def inst():
+        """
+        Реализует синглтон поведение класса
+        :return: обьект класса BDWindowsInteractor
+        Автор Вальков М.Д. БИВ185
+        """
         if BDWindowsInteractor.__instance is None:
             BDWindowsInteractor.__instance = BDWindowsInteractor()
         return BDWindowsInteractor.__instance
 
     def add_entry(self, new_data):
+        """
+        Обрабатывает данные полученные из интерфейса и передает их в класс BD
+        :param new_data: данные полученные в интерфейсе
+        :return: -
+        Автора Кабисов Г.Ч. БИВ185
+        """
         number_clear_fields = 0
         for i in range(len(new_data)):
             if new_data[i] == '\n' or new_data[i] == 'Нет данных' or new_data[i] == '':
@@ -60,6 +75,12 @@ class BDWindowsInteractor:
         return certain_entry
 
     def provide_entry_id_in_table(self, entry):
+        """
+        Ищет запись, данные о которой введены пользователем в базе данных
+        :param entry: данные о записи, введенные пользователем
+        :return: индекс записи в базе данных в 16-ричной системе счисления
+        Автор Вальков М.Д. БИВ185
+        """
         if entry[3] != 'Нет данных':
             entry[3] = float(entry[3])
         if entry[5] != 'Нет данных':

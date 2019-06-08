@@ -4,6 +4,10 @@ from Domain.MainWindowInteractor import MainWindowInteractor
 
 
 class EditEntryInfoWindow(tk.Toplevel, object):
+    """
+    Класс отвечающий за окно изменения данных
+    Автор Кабисов Г.Ч. БИВ185
+    """
 
     __interactor = BDWindowsInteractor.inst()
     __main_window_interactor = MainWindowInteractor.inst()
@@ -16,7 +20,11 @@ class EditEntryInfoWindow(tk.Toplevel, object):
         self.init_edit_entry_info_window()
 
     def init_edit_entry_info_window(self):
-
+        """
+        Инициализирует окно изменения данных
+        :return: -
+        Автор Кабисов Г.Ч. БИВ185
+        """
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
         country_entry = tk.Text(self, width=50, height=1)

@@ -8,7 +8,11 @@ from Presentation.SeacrhEntryWindow import SearchEntryWindow
 
 
 class MainWindow(tk.Frame):
-
+    """
+    Класс для создания основного окна программы
+    __interactor - обьект класса MainWindowInteractor
+    Автор Вальков М.Д. БИВ185
+    """
     __interactor = MainWindowInteractor.inst()
 
     def __init__(self, root):
@@ -17,6 +21,12 @@ class MainWindow(tk.Frame):
         self.init_main_window()
 
     def open_add_data_window(self, table):
+        """
+        Окрывает окно добавления записи. Добавляет запись в таблицу, в случае если пользователь создал верную запись
+        :param table: виджет TreeView созданный при инициализации окна
+        :return: -
+        Автор Вальков М.Д. БИВ185
+        """
         child_window = AddDataWindow()
         child_window.wait_window()
         if self.__interactor.check_new_entry_added_status():
@@ -34,6 +44,13 @@ class MainWindow(tk.Frame):
                              last_entry['Taster']])
 
     def open_table_item_info(self, table):
+        """
+        Открывает окно подробной информации о записи в таблице. Изменяет/удаляет запись в таблице,
+         если пользователь изменил или удалил её после открытия этого окна
+        :param table: виджет TreeView созданный при инициализации окна
+        :return: -
+        Автор Вальков М.Д. БИВ185
+        """
         child_window = TableItemInfoWindow(table.selection())
         child_window.wait_window()
         print(self.__interactor.check_entry_edited_status())
@@ -45,6 +62,13 @@ class MainWindow(tk.Frame):
             self.__interactor.set_entry_edited_none()
 
     def open_search_entry_window(self, table):
+        """
+        Открывает окно поиска записи. Изменяет/удалет запись, если пользователь изменил или удалил запись,
+        в результате поиска записи
+        :param table: виджет TreeView созданный при инициализации окна
+        :return: -
+        Автор Вальков М.Д. БИВ185
+        """
         SearchEntryWindow().wait_window()
         if self.__interactor.check_entry_deleted_status() is not None:
             index = self.__interactor.check_entry_deleted_status()
@@ -70,9 +94,11 @@ class MainWindow(tk.Frame):
             self.__interactor.set_entry_edited_none()
 
     def init_main_window(self):
-
-        # Верстка главного окна
-
+        """
+        Инициирует основное окно программы
+        :return: -
+        Автор Вальков М.Д. БИВ185
+        """
         tool_bar = tk.Menu(self.root)
         self.root.config(menu=tool_bar)
 
@@ -94,7 +120,7 @@ class MainWindow(tk.Frame):
                                             'Year', 'Points', 'Price', 'Taster'),
                              show='headings',
                              yscrollcommand=y_scrollbar_for_table.set)
-        #TODO command=lambda: print(1) - зачем?
+
         table.heading('Country', text='Страна', command=lambda: print(1))
         table.heading('Province', text='Провинция')
         table.heading('Variety', text='Вид')
