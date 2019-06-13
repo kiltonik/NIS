@@ -58,9 +58,12 @@ class BDWindowsInteractor:
             self.__MainWindowInteractor.set_new_entry_added_true()
 
     def provide_certain_entry(self, entry_id):
-
+        print(entry_id)
         if list(entry_id)[0][1:] == '':
             entry_id = [entry_id[1:]]
+        print(entry_id)
+        print(int(list(entry_id)[0][1:], 16)-1)
+        print(list(self.__BD.provide_wine_data().keys())[-1])
         certain_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in
                               list(self.__BD.provide_entry_by_id(
                                   list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1])

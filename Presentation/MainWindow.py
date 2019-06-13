@@ -53,12 +53,12 @@ class MainWindow(tk.Frame):
         """
         child_window = TableItemInfoWindow(table.selection())
         child_window.wait_window()
-        print(self.__interactor.check_entry_edited_status())
+        print(table.selection())
         if self.__interactor.check_entry_deleted_status() is not None:
             table.delete(table.selection())
             self.__interactor.set_entry_deleted_none()
         if self.__interactor.check_entry_edited_status() is not None:
-            table.item(table.selection(), values=self.__interactor.check_entry_edited_status())
+            table.item(table.selection(), values=self.__interactor.check_entry_edited_status()[0])
             self.__interactor.set_entry_edited_none()
 
     def open_search_entry_window(self, table):
@@ -81,7 +81,6 @@ class MainWindow(tk.Frame):
             table.delete(self.__interactor.check_entry_deleted_status())
             self.__interactor.set_entry_deleted_none()
         entry_edited_status = self.__interactor.check_entry_edited_status()
-        print(entry_edited_status)
         if entry_edited_status is not None:
             index = entry_edited_status[1][2:]
             if int(index, 16) < 16:
@@ -90,7 +89,7 @@ class MainWindow(tk.Frame):
                 index = 'I0'+str(index)
             else:
                 index = 'I'+str(index)
-            table.item(index, values=entry_edited_status[0])
+            table.item(index, values=entry_edited_status)
             self.__interactor.set_entry_edited_none()
 
     def init_main_window(self):
