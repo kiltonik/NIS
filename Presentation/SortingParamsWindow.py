@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import StringVar
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
 from Data.BD import BD
-
+from Presentation import SortedDataWindow
 
 class SortingParamsWindow(tk.Toplevel):
 
@@ -47,16 +47,13 @@ class SortingParamsWindow(tk.Toplevel):
         taster_entry = tk.Text(self, width=50, height=1)
         taster_entry.grid(row=6, column=1, sticky='w', padx=3, pady=3)
 
-        title_label = tk.Label(self, text='Название')
-        title_label.grid(row=7, column=0, sticky='w', padx=3, pady=3)
-        title_entry = tk.Text(self, width=50, height=1)
-        title_entry.grid(row=7, column=1, sticky='w', padx=3, pady=3)
 
         sort_button = tk.Button(self, text='Отсортировать')
-        sort_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
+        sort_button.grid(row=7, column=0, sticky='w', padx=10, pady=3)
 
         cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())
-        cancel_button.grid(row=9, column=1, sticky='e', padx=10, pady=3)
+        cancel_button.grid(row=7, column=1, sticky='e', padx=10, pady=3)
+
 
         def show_sorted_data():
             country = country_entry.get(index1="1.0", index2="end")
@@ -66,11 +63,5 @@ class SortingParamsWindow(tk.Toplevel):
             points = points_entry.get()
             price = price_entry.get()
             taster = taster_entry.get(index1="1.0", index2="end")
-            title = title_entry.get(index1="1.0", index2="end")
-
-            print(year+points)
-            print(country)
-            print("suck")
 
             sort_button['command'] = show_sorted_data()
-

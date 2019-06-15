@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import StringVar
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
 from Data.BD import BD
-
+from Domain.MainWindowInteractor import MainWindowInteractor
 
 class SortedDataWindow(tk.Toplevel):
     __interactor = SearchTypeWindowInteractor.inst()
@@ -11,13 +11,8 @@ class SortedDataWindow(tk.Toplevel):
         Класс отвечающий за создание окна отсортированных записей записей
         Автор: Соловьев М.М. БИВ185
     """
-    def __init__(self, sort_by, value_to_search):
+    def __init__(self, country, province, variety, year, points, price, taster, title):
         super().__init__()
-        self.sort_by = sort_by
-        self.value_to_search = value_to_search
-        self.resizable(False, False)
-        self.grab_set()
-        self.sorted_data = self.__interactor.get_sort_data(self.sort_by, self.value_to_search)
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):
@@ -59,16 +54,15 @@ class SortedDataWindow(tk.Toplevel):
                    padx=2.5,
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
-    #qq
 
-        for i in list(self.sorted_data.keys()):
-            table.insert(parent='',
-                         index=i,
-                         values=[self.sorted_data[i]['Country'],
-                                     self.sorted_data[i]['Province'],
-                                     self.sorted_data[i]['Variety'],
-                                     self.sorted_data[i]['Year'],
-                                     self.sorted_data[i]['Points'],
-                                     self.sorted_data[i]['Price'],
-                                     self.sorted_data[i]['Taster']])
+        data = self.__interactor.provide_data_for_table()
+        table.insert(parent='',
+                             index=1,
+                             values=[data[1]['Country'],
+                                     data[1]['Province'],
+                                     data[1]['Variety'],
+                                     data[1]['Year'],
+                                     data[1]['Points'],
+                                     data[1]['Price'],
+                                     data[1]['Taster']])
 
