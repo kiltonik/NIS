@@ -5,7 +5,10 @@ from Domain.MainWindowInteractor import MainWindowInteractor
 
 
 class TableItemInfoWindow(tk.Toplevel, object):
-
+    """
+            Класс отвечающий за создание окна информации о выбраном элементе
+            Автор: Соловьев М.М. БИВ185
+    """
     __interactor = BDWindowsInteractor.inst()
 
     def __init__(self, entry_id):
@@ -16,7 +19,11 @@ class TableItemInfoWindow(tk.Toplevel, object):
         self.init_table_item_info_window()
 
     def init_table_item_info_window(self):
-
+        """
+                Инициирует окно с информацией о выбраном элементе
+                :return: -
+                Автор Вальков М.Д. БИВ185
+        """
         country_label = tk.Label(self, text='Страна:')
         country_label.grid(row=0, column=0, sticky='w', padx=3, pady=3)
         country_text_field = tk.Message(self, width=300)

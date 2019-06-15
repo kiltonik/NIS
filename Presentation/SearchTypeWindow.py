@@ -2,7 +2,10 @@ import tkinter as tk
 
 
 class SearchTypeWindow(tk.Toplevel):
-
+    """
+        Класс отвечающий за окно сортировки
+        Автор Соловьев М.М. БИВ185
+    """
     def __init__(self):
         super().__init__()
         self.resizable(False, False)
@@ -10,7 +13,11 @@ class SearchTypeWindow(tk.Toplevel):
         self.init_search_type_window()
 
     def init_search_type_window(self):
-
+        """
+        Инициирует  окно сортировки
+        :return: -
+        Соловеьв М.М. БИВ185
+        """
         value_to_search = tk.Entry(self, width=100)
         value_to_search.grid(row=0, column=0, sticky='w', padx=3, pady=3)
 
