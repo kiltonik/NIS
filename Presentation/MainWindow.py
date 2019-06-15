@@ -54,7 +54,6 @@ class MainWindow(tk.Frame):
         """
         child_window = TableItemInfoWindow(table.selection())
         child_window.wait_window()
-        print(table.selection())
         if self.__interactor.check_entry_deleted_status() is not None:
             table.delete(table.selection())
             self.__interactor.set_entry_deleted_none()

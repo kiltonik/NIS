@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import messagebox
+import re
 from Domain.BDWindowsInteractor import BDWindowsInteractor
 from Domain.MainWindowInteractor import MainWindowInteractor
 
@@ -81,26 +83,42 @@ class EditEntryInfoWindow(tk.Toplevel, object):
         title_entry.insert('1.0', entry['Name'])
         description_entry.insert('1.0', entry['Description'])
 
-        ok_button = tk.Button(self, text='Сохранить', command=lambda: {self.__interactor.edit_entry([
-            country_entry.get(index1="1.0", index2="end")[:-1],
-            province_entry.get(index1="1.0", index2="end")[:-1],
-            variety_entry.get(index1="1.0", index2="end")[:-1],
-            year_entry.get(),
-            points_entry.get(),
-            price_entry.get(),
-            taster_entry.get(index1="1.0", index2="end")[:-1],
-            description_entry.get(index1="1.0", index2="end")[:-1],
-            title_entry.get(index1="1.0", index2="end")[:-1],
-        ], self.entry_id, True),
-            self.__main_window_interactor.set_entry_edited([[country_entry.get(index1="1.0", index2="end")[:-1],
-                                                            province_entry.get(index1="1.0", index2="end")[:-1],
-                                                            variety_entry.get(index1="1.0", index2="end")[:-1],
-                                                            year_entry.get(),
-                                                            points_entry.get(),
-                                                            price_entry.get(),
-                                                            taster_entry.get(index1="1.0", index2="end")[:-1]
-                                                             ], self.entry_id]),
-            self.destroy()})
+        def edit_entry():
+            if re.search('[^\w\s]', country_entry.get(index1="1.0", index2="end")[:-1]) is None \
+                    and re.search('\d', country_entry.get(index1="1.0", index2="end")[:-1]) is None \
+                    and re.search('[^\w\s]', province_entry.get(index1="1.0", index2="end")[:-1], ) is None \
+                    and re.search('\d', province_entry.get(index1="1.0", index2="end")[:-1], ) is None \
+                    and re.search('[^\w\s]', variety_entry.get(index1="1.0", index2="end")[:-1], ) is None \
+                    and re.search('\d', variety_entry.get(index1="1.0", index2="end")[:-1], ) is None \
+                    and re.search('\D', year_entry.get()) is None \
+                    and re.search('\D', points_entry.get()) is None \
+                    and re.search('[^\d.]', price_entry.get()) is None \
+                    and re.search('[^\w\s]', taster_entry.get(index1="1.0", index2="end")[:-1], ) is None \
+                    and re.search('\d', taster_entry.get(index1="1.0", index2="end")[:-1], ) is None:
+                self.__interactor.edit_entry([
+                    country_entry.get(index1="1.0", index2="end")[:-1],
+                    province_entry.get(index1="1.0", index2="end")[:-1],
+                    variety_entry.get(index1="1.0", index2="end")[:-1],
+                    year_entry.get(),
+                    points_entry.get(),
+                    price_entry.get(),
+                    taster_entry.get(index1="1.0", index2="end")[:-1],
+                    description_entry.get(index1="1.0", index2="end")[:-1],
+                    title_entry.get(index1="1.0", index2="end")[:-1],
+                ], self.entry_id, True)
+                self.__main_window_interactor.set_entry_edited([[country_entry.get(index1="1.0", index2="end")[:-1],
+                                                                 province_entry.get(index1="1.0", index2="end")[:-1],
+                                                                 variety_entry.get(index1="1.0", index2="end")[:-1],
+                                                                 year_entry.get(),
+                                                                 points_entry.get(),
+                                                                 price_entry.get(),
+                                                                 taster_entry.get(index1="1.0", index2="end")[:-1]
+                                                                 ], self.entry_id])
+                self.destroy()
+            else:
+                messagebox.showerror('Ошибка', 'Данные введены неправильно')
+
+        ok_button = tk.Button(self, text='Сохранить', command=edit_entry)
         ok_button.grid(row=9, column=0, sticky='w', padx=10, pady=3)
 
         cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())

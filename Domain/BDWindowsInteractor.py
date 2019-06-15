@@ -64,16 +64,10 @@ class BDWindowsInteractor:
         :return: искомую запись
         Автор Ставинский Я.Т.
         """
-        print(entry_id)
         if list(entry_id)[0][1:] == '':
             entry_id = [entry_id[1:]]
-        print(entry_id)
-        print(int(list(entry_id)[0][1:], 16)-1)
-        print(list(self.__BD.provide_wine_data().keys())[-1])
         certain_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in
-                              list(self.__BD.provide_entry_by_id(
-                                  list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1])
-                                   .items())])
+                              list(self.__BD.provide_entry_by_id(int(list(entry_id)[0][1:], 16)-1).items())])
         if certain_entry['Province id'] != 'Нет данных':
             province_data = self.__BD.provide_specific_province(int(certain_entry['Province id']))
             certain_entry['Province'] = province_data['Province']
@@ -90,7 +84,6 @@ class BDWindowsInteractor:
         :return: индекс записи в базе данных в 16-ричной системе счисления
         Автор Вальков М.Д. БИВ185
         """
-        print(entry)
         if entry[3] != 'Нет данных':
             entry[3] = float(entry[3])
         if entry[5] != 'Нет данных':
@@ -101,13 +94,14 @@ class BDWindowsInteractor:
             if entry[i] == '\n' or entry[i] == 'Нет данных' or entry[i] == '':
                 entry[i] = None
         entry = {'Province id': self.__BD.provide_all_provinces().index(entry[1]),
+                 'Description': entry[7],
                  'Points': entry[4],
+                 'Year': entry[3],
                  'Taster': entry[6],
                  'Variety': entry[2],
-                 'Year': entry[3],
-                 'Description': entry[7],
-                 'Name': entry[8],
-                 'Price': entry[5]}
+                 'Price': entry[5],
+                 'Name': entry[8]
+                 }
         wine_data = self.__BD.provide_wine_data()
         for i in wine_data:
             if wine_data[i] == entry:

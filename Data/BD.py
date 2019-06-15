@@ -117,11 +117,6 @@ class BD(object):
             return [i[1] for i in self.__country__data.items()]
 
     def provide_entry_by_id(self, entry_id):
-        if self.__country__data is None:
-            self.__country__data = {}
-            data_csv = pandas.read_csv(self.__country_path, encoding='utf-8')
-            for index, row in data_csv.iterrows():
-                self.__country__data[index] = row['Countries']
         return self.__wine_data[entry_id]
 
     def provide_last_entry(self):
