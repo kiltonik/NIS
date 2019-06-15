@@ -88,7 +88,7 @@ class BD(object):
         :return: словарь содержащий все провинции
         Автор Кабисов Г.Ч. БИВ185
         """
-        data_csv = pandas.read_csv(os.getcwd() + '\\Province info.csv', encoding='utf-8')
+        data_csv = pandas.read_csv(self.__province_path, encoding='utf-8')
         return list(data_csv['Province'])
 
     def provide_specific_country(self, country_id):
@@ -112,14 +112,14 @@ class BD(object):
         Автор Кабисов Г.Ч. БИВ185
         """
         if self.__country__data is None:
-            return set(pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')['countries'])
+            return set(pandas.read_csv(self.__country_path, encoding='utf-8')['countries'])
         else:
             return [i[1] for i in self.__country__data.items()]
 
     def provide_entry_by_id(self, entry_id):
         if self.__country__data is None:
             self.__country__data = {}
-            data_csv = pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')
+            data_csv = pandas.read_csv(self.__country_path, encoding='utf-8')
             for index, row in data_csv.iterrows():
                 self.__country__data[index] = row['Countries']
         return self.__wine_data[entry_id]
@@ -132,7 +132,7 @@ class BD(object):
         """
         if self.__country__data is None:
             self.__country__data = {}
-            data_csv = pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')
+            data_csv = pandas.read_csv(self.__country_path, encoding='utf-8')
             for index, row in data_csv.iterrows():
                 self.__country__data[index] = row['Countries']
         last_entry_id = list(self.__wine_data.keys())[-1]
@@ -167,7 +167,7 @@ class BD(object):
         """
         last_country_index = list(self.__country__data.keys())[-1] + 1
         self.__country__data[last_country_index] = new_country
-        pandas.read_csv(os.getcwd() + '\\Country info.csv', encoding='utf-8')\
+        pandas.read_csv(self.__country_path, encoding='utf-8')\
             .append(pandas.DataFrame({'Countries': {last_country_index: new_country}}, columns=['Countries']))\
             .drop('Unnamed: 0', axis=1).to_csv(self.__wine_path, encoding='utf-8')
 
@@ -180,7 +180,7 @@ class BD(object):
         """
         last_province_index = list(self.__province_data.keys())[-1] + 1
         self.__province_data[last_province_index] = new_province
-        pandas.read_csv(os.getcwd() + '\\Province info.csv', encoding='utf-8')\
+        pandas.read_csv(self.__province_path, encoding='utf-8')\
             .append(pandas.DataFrame({last_province_index: new_province}).transpose())\
             .drop('Unnamed: 0', axis=1).to_csv(self.__wine_path, encoding='utf-8')
 
@@ -203,5 +203,5 @@ class BD(object):
         Автор Вальков М.Д. БИВ185
         """
         del self.__wine_data[entry_id]
-        pandas.read_csv(os.getcwd() + '\\Wine info.csv', encoding='utf-8')\
+        pandas.read_csv(self.__wine_path, encoding='utf-8')\
             .drop(entry_id, axis=0).drop('Unnamed: 0', axis=1).to_csv(self.__wine_path, encoding='utf-8')

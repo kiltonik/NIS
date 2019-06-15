@@ -58,6 +58,12 @@ class BDWindowsInteractor:
             self.__MainWindowInteractor.set_new_entry_added_true()
 
     def provide_certain_entry(self, entry_id):
+        """
+        Возвращает конкретную запись из базы данных по id
+        :param entry_id: индекс записи, которую необходимо получить
+        :return: искомую запись
+        Автор Ставинский Я.Т.
+        """
         print(entry_id)
         if list(entry_id)[0][1:] == '':
             entry_id = [entry_id[1:]]
@@ -84,6 +90,7 @@ class BDWindowsInteractor:
         :return: индекс записи в базе данных в 16-ричной системе счисления
         Автор Вальков М.Д. БИВ185
         """
+        print(entry)
         if entry[3] != 'Нет данных':
             entry[3] = float(entry[3])
         if entry[5] != 'Нет данных':
@@ -127,10 +134,10 @@ class BDWindowsInteractor:
 
     def edit_entry(self, new_data, entry, index):
         """
-                        Изменение данных
-                        :param new_data, entry, index: данные о записи, введенные пользователем, индекс записи
-                        :return: -
-                        Автор Соловьев М.М. БИВ185
+        Изменение данных
+        :param new_data, entry, index: данные о записи, введенные пользователем, индекс записи
+        :return: -
+        Автор Соловьев М.М. БИВ185
         """
         if not index:
             all_wines = self.__BD.provide_wine_data()

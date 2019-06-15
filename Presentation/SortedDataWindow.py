@@ -6,6 +6,7 @@ from Data.BD import BD
 
 
 class SortedDataWindow(tk.Toplevel):
+    __interactor = SearchTypeWindowInteractor.inst()
     """
         Класс отвечающий за создание окна отсортированных записей записей
         Автор: Соловьев М.М. БИВ185
@@ -16,7 +17,7 @@ class SortedDataWindow(tk.Toplevel):
         self.value_to_search = value_to_search
         self.resizable(False, False)
         self.grab_set()
-        self.sorted_data = SearchTypeWindowInteractor.get_sort_data(self, self.sort_by, self.value_to_search)
+        self.sorted_data = self.__interactor.get_sort_data(self.sort_by, self.value_to_search)
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):

@@ -5,6 +5,7 @@ from Presentation.AddDataWindow import AddDataWindow
 from Presentation.TableItemInfoWindow import TableItemInfoWindow
 from Presentation.SearchTypeWindow import SearchTypeWindow
 from Presentation.SeacrhEntryWindow import SearchEntryWindow
+from Presentation.ExportBDWindow import ExportBDWindow
 
 
 class MainWindow(tk.Frame):
@@ -104,7 +105,8 @@ class MainWindow(tk.Frame):
         db_bar = tk.Menu(tool_bar)
         db_bar.add_command(label='Добавить запись', command=lambda: self.open_add_data_window(table))
         db_bar.add_command(label='Найти запись', command=lambda: self.open_search_entry_window(table))
-        db_bar.add_command(label='Выгрузить базу данных')
+        db_bar.add_command(label='Выгрузить базу данных', command=lambda:ExportBDWindow())
+        tool_bar.add_command(label='Отчёты')
 
         tool_bar.add_cascade(label='База данных', menu=db_bar)
         tool_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
