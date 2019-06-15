@@ -1,3 +1,3 @@
-D:\Desktop\project\Country info.csv
-D:\Desktop\project\Province info.csv
-D:\Desktop\project\Wine info.csv
+/Users/gkabisov/PycharmProjects/NIS/Country info.csv
+/Users/gkabisov/PycharmProjects/NIS/Province info.csv
+/Users/gkabisov/PycharmProjects/NIS/Wine info.csv

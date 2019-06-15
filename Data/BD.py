@@ -164,7 +164,7 @@ class BD(object):
         self.__country__data[last_country_index] = new_country
         pandas.read_csv(self.__country_path, encoding='utf-8')\
             .append(pandas.DataFrame({'Countries': {last_country_index: new_country}}, columns=['Countries']))\
-            .drop('Unnamed: 0', axis=1).to_csv(self.__wine_path, encoding='utf-8')
+            .drop('Unnamed: 0', axis=1).to_csv(self.__country_path, encoding='utf-8')
 
     def add_new_province(self, new_province):
         """
@@ -177,7 +177,7 @@ class BD(object):
         self.__province_data[last_province_index] = new_province
         pandas.read_csv(self.__province_path, encoding='utf-8')\
             .append(pandas.DataFrame({last_province_index: new_province}).transpose())\
-            .drop('Unnamed: 0', axis=1).to_csv(self.__wine_path, encoding='utf-8')
+            .drop('Unnamed: 0', axis=1).to_csv(self.__province_path, encoding='utf-8')
 
     def edit_wine_entry(self, entry_id, new_data):
         """
