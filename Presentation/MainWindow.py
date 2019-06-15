@@ -93,6 +93,8 @@ class MainWindow(tk.Frame):
             table.item(index, values=entry_edited_status)
             self.__interactor.set_entry_edited_none()
 
+
+
     def init_main_window(self):
         """
         Инициирует основное окно программы

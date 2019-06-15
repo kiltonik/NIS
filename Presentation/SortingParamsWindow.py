@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import StringVar
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
 from Data.BD import BD
-from Presentation import SortedDataWindow
+from Presentation.SortedDataWindow import SortedDataWindow
 
 class SortingParamsWindow(tk.Toplevel):
 
@@ -48,20 +48,18 @@ class SortingParamsWindow(tk.Toplevel):
         taster_entry.grid(row=6, column=1, sticky='w', padx=3, pady=3)
 
 
-        sort_button = tk.Button(self, text='Отсортировать')
+        sort_button = tk.Button(self, text='Отсортировать', command=lambda: SortedDataWindow(country_entry.get(index1="1.0", index2="end"),
+                                                                                             province_entry.get(index1="1.0", index2="end"),
+                                                                                             variety_entry.get(index1="1.0", index2="end"),
+                                                                                             year_entry.get(),
+                                                                                             points_entry.get(),
+                                                                                             price_entry.get(),
+                                                                                             taster_entry.get(index1="1.0",index2="end")))
+
+
+
         sort_button.grid(row=7, column=0, sticky='w', padx=10, pady=3)
 
         cancel_button = tk.Button(self, text='Отмена', command=lambda: self.destroy())
         cancel_button.grid(row=7, column=1, sticky='e', padx=10, pady=3)
 
-
-        def show_sorted_data():
-            country = country_entry.get(index1="1.0", index2="end")
-            province = province_entry.get(index1="1.0", index2="end")
-            variety = variety_entry.get(index1="1.0", index2="end")
-            year = year_entry.get()
-            points = points_entry.get()
-            price = price_entry.get()
-            taster = taster_entry.get(index1="1.0", index2="end")
-
-            sort_button['command'] = show_sorted_data()

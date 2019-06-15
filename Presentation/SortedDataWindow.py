@@ -1,18 +1,25 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import StringVar
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
-from Data.BD import BD
-from Domain.MainWindowInteractor import MainWindowInteractor
+
 
 class SortedDataWindow(tk.Toplevel):
     __interactor = SearchTypeWindowInteractor.inst()
+
+
     """
         Класс отвечающий за создание окна отсортированных записей записей
         Автор: Соловьев М.М. БИВ185
     """
-    def __init__(self, country, province, variety, year, points, price, taster, title):
+    def __init__(self, country, province, variety, year, points, price, taster):
         super().__init__()
+        self.country = country
+        self.province = province
+        self.variety = variety
+        self.year = year
+        self.points = points
+        self.price = price
+        self.taster = taster
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):
@@ -55,14 +62,16 @@ class SortedDataWindow(tk.Toplevel):
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
 
-        data = self.__interactor.provide_data_for_table()
-        table.insert(parent='',
-                             index=1,
-                             values=[data[1]['Country'],
-                                     data[1]['Province'],
-                                     data[1]['Variety'],
-                                     data[1]['Year'],
-                                     data[1]['Points'],
-                                     data[1]['Price'],
-                                     data[1]['Taster']])
+        data = self.__interactor.get_sort_data(self.country)
+        for i in list(data.keys()):
+            if data[i]['Price'] != 'nan':
+                table.insert(parent='',
+                             index=i,
+                             values=[data[i]['Country'],
+                                     data[i]['Province'],
+                                     data[i]['Variety'],
+                                     data[i]['Year'],
+                                     data[i]['Points'],
+                                     data[i]['Price'],
+                                     data[i]['Taster']])
 
