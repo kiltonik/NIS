@@ -47,16 +47,14 @@ class SortingParamsWindow(tk.Toplevel):
         taster_entry = tk.Text(self, width=50, height=1)
         taster_entry.grid(row=6, column=1, sticky='w', padx=3, pady=3)
 
-
-        sort_button = tk.Button(self, text='Отсортировать', command=lambda: SortedDataWindow(country_entry.get(index1="1.0", index2="end"),
-                                                                                             province_entry.get(index1="1.0", index2="end"),
-                                                                                             variety_entry.get(index1="1.0", index2="end"),
-                                                                                             year_entry.get(),
-                                                                                             points_entry.get(),
-                                                                                             price_entry.get(),
-                                                                                             taster_entry.get(index1="1.0",index2="end")))
-
-
+        sort_button = tk.Button(self, text='Отсортировать', command=lambda: SortedDataWindow(
+            {'Country':country_entry.get(index1="1.0", index2="end"),
+                'Province':province_entry.get(index1="1.0", index2="end"),
+                'Variety':variety_entry.get(index1="1.0", index2="end"),
+                'Year':year_entry.get(),
+                'Points': points_entry.get(),
+                'Price':price_entry.get(),
+                'Taster':taster_entry.get(index1="1.0",index2="end")}))
 
         sort_button.grid(row=7, column=0, sticky='w', padx=10, pady=3)
 

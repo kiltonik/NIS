@@ -12,15 +12,9 @@ class SortedDataWindow(tk.Toplevel):
         Класс отвечающий за создание окна отсортированных записей записей
         Автор: Соловьев М.М. БИВ185
     """
-    def __init__(self, country, province, variety, year, points, price, taster):
+    def __init__(self, values_to_search):
         super().__init__()
-        self.country = country
-        self.province = province
-        self.variety = variety
-        self.year = year
-        self.points = points
-        self.price = price
-        self.taster = taster
+        self.values_to_search = values_to_search
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):
@@ -63,7 +57,7 @@ class SortedDataWindow(tk.Toplevel):
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
 
-        sort_data = self.__interactor.get_sort_data(self.country)
+        sort_data = self.__interactor.get_sort_data(self.values_to_search)
 
         for i in list(sort_data.keys()):
             if sort_data[i]['Price'] != 'nan':
