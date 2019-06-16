@@ -5,7 +5,9 @@ from Presentation.AddDataWindow import AddDataWindow
 from Presentation.TableItemInfoWindow import TableItemInfoWindow
 from Presentation.SearchTypeWindow import SearchTypeWindow
 from Presentation.SeacrhEntryWindow import SearchEntryWindow
-
+from Presentation.ExportBDWindow import ExportBDWindow
+from Presentation.GraphicWindow import GraphicWindow
+from Presentation.SortingParamsWindow import SortingParamsWindow
 
 class MainWindow(tk.Frame):
     """
@@ -53,12 +55,11 @@ class MainWindow(tk.Frame):
         """
         child_window = TableItemInfoWindow(table.selection())
         child_window.wait_window()
-        print(self.__interactor.check_entry_edited_status())
         if self.__interactor.check_entry_deleted_status() is not None:
             table.delete(table.selection())
             self.__interactor.set_entry_deleted_none()
         if self.__interactor.check_entry_edited_status() is not None:
-            table.item(table.selection(), values=self.__interactor.check_entry_edited_status())
+            table.item(table.selection(), values=self.__interactor.check_entry_edited_status()[0])
             self.__interactor.set_entry_edited_none()
 
     def open_search_entry_window(self, table):
@@ -81,7 +82,6 @@ class MainWindow(tk.Frame):
             table.delete(self.__interactor.check_entry_deleted_status())
             self.__interactor.set_entry_deleted_none()
         entry_edited_status = self.__interactor.check_entry_edited_status()
-        print(entry_edited_status)
         if entry_edited_status is not None:
             index = entry_edited_status[1][2:]
             if int(index, 16) < 16:
@@ -90,8 +90,10 @@ class MainWindow(tk.Frame):
                 index = 'I0'+str(index)
             else:
                 index = 'I'+str(index)
-            table.item(index, values=entry_edited_status[0])
+            table.item(index, values=entry_edited_status)
             self.__interactor.set_entry_edited_none()
+
+
 
     def init_main_window(self):
         """
@@ -105,10 +107,13 @@ class MainWindow(tk.Frame):
         db_bar = tk.Menu(tool_bar)
         db_bar.add_command(label='Добавить запись', command=lambda: self.open_add_data_window(table))
         db_bar.add_command(label='Найти запись', command=lambda: self.open_search_entry_window(table))
-        db_bar.add_command(label='Выгрузить базу данных')
+        db_bar.add_command(label='Выгрузить базу данных', command=lambda:ExportBDWindow())
+        #TODO поменять у Отчеты, Поиска, Сортировки db_bar на tool_bar
+        db_bar.add_command(label='Отчёты', command=lambda: GraphicWindow())
+        db_bar.add_command(label='Сортировка', command=lambda: SortingParamsWindow())
 
         tool_bar.add_cascade(label='База данных', menu=db_bar)
-        tool_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
+        db_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
 
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
         y_scrollbar_for_table.grid(row=1,

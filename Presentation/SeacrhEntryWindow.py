@@ -98,9 +98,7 @@ class SearchEntryWindow(tk.Toplevel):
                     and re.search('\D', points) is None \
                     and re.search('[^\d.]', price) is None \
                     and re.search('[^\w\s]', taster) is None \
-                    and re.search('\d', taster) is None\
-                    and re.search('[^\w\s]', title) is None \
-                    and re.search('\d', title) is None:
+                    and re.search('\d', taster) is None:
                 try:
                     TableItemInfoWindow(self.__interactor.provide_entry_id_in_table([country[:-1], province[:-1],
                                                                                  variety[:-1], year, points,

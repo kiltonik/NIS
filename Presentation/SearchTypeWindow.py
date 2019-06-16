@@ -1,8 +1,11 @@
 import tkinter as tk
-
+from Presentation.SortedDataWindow import SortedDataWindow
 
 class SearchTypeWindow(tk.Toplevel):
-
+    """
+        Класс отвечающий за окно сортировки
+        Автор Соловьев М.М. БИВ185
+    """
     def __init__(self):
         super().__init__()
         self.resizable(False, False)
@@ -10,7 +13,11 @@ class SearchTypeWindow(tk.Toplevel):
         self.init_search_type_window()
 
     def init_search_type_window(self):
-
+        """
+        Инициирует  окно сортировки
+        :return: -
+        Соловеьв М.М. БИВ185
+        """
         value_to_search = tk.Entry(self, width=100)
         value_to_search.grid(row=0, column=0, sticky='w', padx=3, pady=3)
 
@@ -25,7 +32,6 @@ class SearchTypeWindow(tk.Toplevel):
         variety_radio_button = tk.Radiobutton(self, text='Вид', value='Variety', variable=search_type_value)
         variety_radio_button.grid(row=3, column=0, sticky='w', padx=3, pady=3)
 
-
         year_radio_button = tk.Radiobutton(self, text='Год сбора', value='Year', variable=search_type_value)
         year_radio_button.grid(row=4, column=0, sticky='w', padx=3, pady=3)
 
@@ -38,6 +44,7 @@ class SearchTypeWindow(tk.Toplevel):
         taster_radio_button = tk.Radiobutton(self, text='Сомелье', value='Taster', variable=search_type_value)
         taster_radio_button.grid(row=7, column=0, sticky='w', padx=3, pady=3)
 
-        search_button = tk.Button(self, text='Найти')
+        search_button = tk.Button(self, text='Найти', command=lambda: SortedDataWindow(search_type_value,
+                                                                                       value_to_search.get()))
         search_button.grid(row=8, column=0, sticky='we', padx=3, pady=3)
 

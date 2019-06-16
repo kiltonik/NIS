@@ -58,13 +58,16 @@ class BDWindowsInteractor:
             self.__MainWindowInteractor.set_new_entry_added_true()
 
     def provide_certain_entry(self, entry_id):
-
+        """
+        Возвращает конкретную запись из базы данных по id
+        :param entry_id: индекс записи, которую необходимо получить
+        :return: искомую запись
+        Автор Ставинский Я.Т.
+        """
         if list(entry_id)[0][1:] == '':
             entry_id = [entry_id[1:]]
         certain_entry = dict([j if j[1] == j[1] else (j[0], 'Нет данных') for j in
-                              list(self.__BD.provide_entry_by_id(
-                                  list(self.__BD.provide_wine_data().keys())[int(list(entry_id)[0][1:], 16)-1])
-                                   .items())])
+                              list(self.__BD.provide_entry_by_id(int(list(entry_id)[0][1:], 16)-1).items())])
         if certain_entry['Province id'] != 'Нет данных':
             province_data = self.__BD.provide_specific_province(int(certain_entry['Province id']))
             certain_entry['Province'] = province_data['Province']
@@ -91,19 +94,26 @@ class BDWindowsInteractor:
             if entry[i] == '\n' or entry[i] == 'Нет данных' or entry[i] == '':
                 entry[i] = None
         entry = {'Province id': self.__BD.provide_all_provinces().index(entry[1]),
+                 'Description': entry[7],
                  'Points': entry[4],
+                 'Year': entry[3],
                  'Taster': entry[6],
                  'Variety': entry[2],
-                 'Year': entry[3],
-                 'Description': entry[7],
-                 'Name': entry[8],
-                 'Price': entry[5]}
+                 'Price': entry[5],
+                 'Name': entry[8]
+                 }
         wine_data = self.__BD.provide_wine_data()
         for i in wine_data:
             if wine_data[i] == entry:
                 return hex(i+1)
 
     def delete_wine_entry(self, entry, index):
+        """
+                Удаляет выбранный элемент
+                :param entry, index: данные о записи, введенные пользователем, индекс записи
+                :return: -
+                Автор Ставинский Я.Т. БИВ185
+        """
         if not index:
             all_wines = self.__BD.provide_wine_data()
             for i in all_wines:
@@ -117,6 +127,12 @@ class BDWindowsInteractor:
             self.__BD.delete_wine_entry(list(self.__BD.provide_wine_data().keys())[int(list(entry)[0][1:], 16) - 1])
 
     def edit_entry(self, new_data, entry, index):
+        """
+        Изменение данных
+        :param new_data, entry, index: данные о записи, введенные пользователем, индекс записи
+        :return: -
+        Автор Соловьев М.М. БИВ185
+        """
         if not index:
             all_wines = self.__BD.provide_wine_data()
             for i in all_wines:

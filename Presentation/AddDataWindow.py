@@ -80,7 +80,7 @@ class AddDataWindow(tk.Toplevel):
             Считывает данные введенные пользователем из полей и передает их в интерактор, длядобавления в базу данных
             Выводит ошибку, если данные введены неправильно
             :return: -
-            Автор Кабисов Г.Ч. БИВ185
+            Автор СТавинский Я.Т. БИВ185
             """
             country = country_entry.get(index1="1.0", index2="end")
             province = province_entry.get(index1="1.0", index2="end")
