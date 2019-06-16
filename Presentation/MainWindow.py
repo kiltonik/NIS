@@ -6,7 +6,8 @@ from Presentation.TableItemInfoWindow import TableItemInfoWindow
 from Presentation.SearchTypeWindow import SearchTypeWindow
 from Presentation.SeacrhEntryWindow import SearchEntryWindow
 from Presentation.ExportBDWindow import ExportBDWindow
-
+from Presentation.GraphicWindow import GraphicWindow
+from Presentation.SortingParamsWindow import SortingParamsWindow
 
 class MainWindow(tk.Frame):
     """
@@ -92,6 +93,8 @@ class MainWindow(tk.Frame):
             table.item(index, values=entry_edited_status)
             self.__interactor.set_entry_edited_none()
 
+
+
     def init_main_window(self):
         """
         Инициирует основное окно программы
@@ -105,10 +108,12 @@ class MainWindow(tk.Frame):
         db_bar.add_command(label='Добавить запись', command=lambda: self.open_add_data_window(table))
         db_bar.add_command(label='Найти запись', command=lambda: self.open_search_entry_window(table))
         db_bar.add_command(label='Выгрузить базу данных', command=lambda:ExportBDWindow())
-        tool_bar.add_command(label='Отчёты')
+        #TODO поменять у Отчеты, Поиска, Сортировки db_bar на tool_bar
+        db_bar.add_command(label='Отчёты', command=lambda: GraphicWindow())
+        db_bar.add_command(label='Сортировка', command=lambda: SortingParamsWindow())
 
         tool_bar.add_cascade(label='База данных', menu=db_bar)
-        tool_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
+        db_bar.add_command(label='Поиск', command=lambda: SearchTypeWindow())
 
         y_scrollbar_for_table = tk.Scrollbar(self, orient='vertical')
         y_scrollbar_for_table.grid(row=1,

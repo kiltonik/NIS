@@ -2,7 +2,7 @@ import tkinter as tk
 from Data.BD import BD
 
 
-class SearchTypeWindowInteractor:
+class SearchTypeWindowInteractor(object):
     __BD = BD.inst()
     __instance = None
     """
@@ -17,7 +17,7 @@ class SearchTypeWindowInteractor:
             SearchTypeWindowInteractor.__instance = SearchTypeWindowInteractor()
         return SearchTypeWindowInteractor.__instance
 
-    def get_sort_data(self, sort_by, value_to_search):
+    def get_sort_data(self, country):
         """
             Создает словарь, отсортированный по нужным критериям
             return: словарь с отсортированными данными, готовыми для отображения
@@ -26,18 +26,8 @@ class SearchTypeWindowInteractor:
         """
         sorted_data = {}
         data = self.__BD.provide_wine_data()
+        print(self.__BD.provide_specific_country(self.__BD.provide_specific_province(data[1]['Province id'])['Country id']))
         for i in list(data.keys()):
-            if self.__BD.provide_specific_country(self.__BD.provide_specific_province(data[i]['Province id'])
-                                                  ['Country id']) == value_to_search:
-                sorted_data[i] = dict([j if j[1] == j[1] else (j[0], 'Нет данных')
-                                       for j in list(data[i].items())])
-                # if data[i]['Year'] != 'Нет данных':
-                # sorted_data[i]['Year'] = int(sorted_data[i]['Year'])
-
-                if data[i]['Province id'] != 'Нет данных':
-                    province_data = self.__BD.provide_specific_province(int(sorted_data[i]['Province id']))
-                    sorted_data[i]['Province'] = province_data['Province']
-                    sorted_data[i]['Country'] = self.__BD.provide_specific_country(
-                        int(province_data['Country id']))
-
+            if self.__BD.provide_specific_country(self.__BD.provide_specific_province(data[i]['Province id'])['Country id']) == country:
+                sorted_data[i] = data[i]
         return sorted_data

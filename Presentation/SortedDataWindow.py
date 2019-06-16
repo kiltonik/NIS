@@ -1,23 +1,26 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import StringVar
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
 from Data.BD import BD
 
-
 class SortedDataWindow(tk.Toplevel):
+
     __interactor = SearchTypeWindowInteractor.inst()
+
+
     """
         Класс отвечающий за создание окна отсортированных записей записей
         Автор: Соловьев М.М. БИВ185
     """
-    def __init__(self, sort_by, value_to_search):
+    def __init__(self, country, province, variety, year, points, price, taster):
         super().__init__()
-        self.sort_by = sort_by
-        self.value_to_search = value_to_search
-        self.resizable(False, False)
-        self.grab_set()
-        self.sorted_data = self.__interactor.get_sort_data(self.sort_by, self.value_to_search)
+        self.country = country
+        self.province = province
+        self.variety = variety
+        self.year = year
+        self.points = points
+        self.price = price
+        self.taster = taster
         self.init_sorted_data_window()
 
     def init_sorted_data_window(self):
@@ -59,16 +62,18 @@ class SortedDataWindow(tk.Toplevel):
                    padx=2.5,
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
-    #qq
 
-        for i in list(self.sorted_data.keys()):
-            table.insert(parent='',
-                         index=i,
-                         values=[self.sorted_data[i]['Country'],
-                                     self.sorted_data[i]['Province'],
-                                     self.sorted_data[i]['Variety'],
-                                     self.sorted_data[i]['Year'],
-                                     self.sorted_data[i]['Points'],
-                                     self.sorted_data[i]['Price'],
-                                     self.sorted_data[i]['Taster']])
+        sort_data = self.__interactor.get_sort_data(self.country)
+
+        for i in list(sort_data.keys()):
+            if sort_data[i]['Price'] != 'nan':
+                table.insert(parent='',
+                             index=i,
+                             values=[sort_data[i]['Country'],
+                                     sort_data[i]['Province'],
+                                     sort_data[i]['Variety'],
+                                     sort_data[i]['Year'],
+                                     sort_data[i]['Points'],
+                                     sort_data[i]['Price'],
+                                     sort_data[i]['Taster']])
 
