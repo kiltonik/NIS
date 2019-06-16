@@ -35,4 +35,4 @@ class SearchTypeWindowInteractor(object):
                     sorted_data[i]['Province'] = province_data['Province']
                     sorted_data[i]['Country'] = self.__BD.provide_specific_country(int(province_data['Country id']))
 
-        return data
+        return sorted_data

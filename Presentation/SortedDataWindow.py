@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from Domain.SearchTypeWindowInteractor import SearchTypeWindowInteractor
-
+from Data.BD import BD
 
 class SortedDataWindow(tk.Toplevel):
+
     __interactor = SearchTypeWindowInteractor.inst()
 
 
@@ -62,16 +63,17 @@ class SortedDataWindow(tk.Toplevel):
                    pady=2.5)
         y_scrollbar_for_table.config(command=table.yview)
 
-        data = self.__interactor.get_sort_data(self.country)
-        for i in list(data.keys()):
-            if data[i]['Price'] != 'nan':
+        sort_data = self.__interactor.get_sort_data(self.country)
+
+        for i in list(sort_data.keys()):
+            if sort_data[i]['Price'] != 'nan':
                 table.insert(parent='',
                              index=i,
-                             values=[data[i]['Country'],
-                                     data[i]['Province'],
-                                     data[i]['Variety'],
-                                     data[i]['Year'],
-                                     data[i]['Points'],
-                                     data[i]['Price'],
-                                     data[i]['Taster']])
+                             values=[sort_data[i]['Country'],
+                                     sort_data[i]['Province'],
+                                     sort_data[i]['Variety'],
+                                     sort_data[i]['Year'],
+                                     sort_data[i]['Points'],
+                                     sort_data[i]['Price'],
+                                     sort_data[i]['Taster']])
 
