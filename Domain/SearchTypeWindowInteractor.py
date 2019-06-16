@@ -26,13 +26,8 @@ class SearchTypeWindowInteractor(object):
         """
         sorted_data = {}
         data = self.__BD.provide_wine_data()
+        print(self.__BD.provide_specific_country(self.__BD.provide_specific_province(data[1]['Province id'])['Country id']))
         for i in list(data.keys()):
             if self.__BD.provide_specific_country(self.__BD.provide_specific_province(data[i]['Province id'])['Country id']) == country:
-                sorted_data[i] = dict([j if j[1] == j[1] else (j[0], 'Нет данных')
-                                           for j in list(data[i].items())])
-                if data[i]['Province id'] != 'Нет данных':
-                    province_data = self.__BD.provide_specific_province(int(sorted_data[i]['Province id']))
-                    sorted_data[i]['Province'] = province_data['Province']
-                    sorted_data[i]['Country'] = self.__BD.provide_specific_country(int(province_data['Country id']))
-
+                sorted_data[i] = data[i]
         return sorted_data
